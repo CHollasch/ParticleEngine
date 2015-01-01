@@ -1,7 +1,7 @@
 package me.hollasch.particles.firework;
 
 import me.hollasch.particles.Particle;
-import me.hollasch.particles.ParticleHost;
+import me.hollasch.particles.ParticleSystem;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
@@ -36,7 +36,7 @@ public class FireworkSpark extends Particle {
         lastX = getCenterX();
         lastY = getCenterY();
 
-        speed = Math.random() + .1;
+        speed = Math.random() + .3;
 
         this.angle = angle;
     }
@@ -46,18 +46,15 @@ public class FireworkSpark extends Particle {
     }
 
     public FireworkSpark(int x, int y, Particle parent, double angle, Color color, boolean forceTwinkle, int lifetime) {
-        super(x, y);
-        this.color = color;
+        this(x, y, parent, angle, color);
 
-        this.parent = parent;
+        centerX = x;
+        centerY = y;
 
         lastX = getCenterX();
         lastY = getCenterY();
 
-        speed = Math.random() + .1;
-
         this.lifetime = lifetime;
-        this.angle = angle;
         this.twinkle = forceTwinkle;
     }
 
@@ -71,12 +68,12 @@ public class FireworkSpark extends Particle {
         lastY = getCenterY();
 
         centerX -= speed * Math.cos(angle);
-        centerY -= speed * Math.sin(angle) - 0.1;
+        centerY -= speed * Math.sin(angle) - 0.15;
 
-        speed += (speed > 0 ? -0.0001 : speed+0.0001);
+        speed += (speed > 0 ? -0.003 : speed+0.003);
     }
 
-    public void paint(ParticleHost particleHost, Graphics g) {
+    public void paint(ParticleSystem particleHost, Graphics g) {
         if (dead) {
             if (twinkle) {
                 for (int i = 0; i < new Range(10, 15).randomInt(); i++) {

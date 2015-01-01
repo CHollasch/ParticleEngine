@@ -13,7 +13,8 @@ public class SnowSpawnController extends Respawnable {
     private Range direction = new Range(-.5, .5);
 
     public void run() {
-        host.addParticle(new SnowParticle((int) (Math.random() * host.getWidth()), 0, direction.randomDouble(), size.randomInt()));
+        for (int i = 0; i < 50; i++)
+            host.addParticle(new SnowParticle((int) (Math.random() * host.getWidth()), 0, direction.randomDouble(), size.randomInt()));
     }
 
     public SnowSpawnController setRandomSize(Range range) {

@@ -8,7 +8,7 @@ import java.util.TimerTask;
 /**
  * Created by Connor on 12/31/2014.
  */
-public class ParticleHost extends JPanel {
+public class ParticleSystem extends JPanel {
 
     private int millisTickRate = 50;
 
@@ -18,11 +18,11 @@ public class ParticleHost extends JPanel {
     private java.util.Timer tickTask;
     private java.util.Timer spawnTask;
 
-    public ParticleHost(int updateInterval) {
+    public ParticleSystem(int updateInterval) {
         tickTask = new java.util.Timer();
         tickTask.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized (ParticleHost.this) {
+                synchronized (ParticleSystem.this) {
                     for (Particle p : alive) {
                         p.tick();
                     }
@@ -35,7 +35,7 @@ public class ParticleHost extends JPanel {
         spawnTask = new java.util.Timer();
         spawnTask.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized (ParticleHost.this) {
+                synchronized (ParticleSystem.this) {
                     for (Respawnable respawn : respawnTasks) {
                         respawn.tick++;
                         if (respawn.spawn())
@@ -59,7 +59,7 @@ public class ParticleHost extends JPanel {
         tickTask = new java.util.Timer();
         tickTask.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized (ParticleHost.this) {
+                synchronized (ParticleSystem.this) {
                     for (Particle p : alive) {
                         p.tick();
                     }
@@ -77,7 +77,7 @@ public class ParticleHost extends JPanel {
         spawnTask = new java.util.Timer();
         spawnTask.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized (ParticleHost.this) {
+                synchronized (ParticleSystem.this) {
                     for (Respawnable respawn : respawnTasks) {
                         respawn.tick++;
                         if (respawn.spawn())
@@ -98,7 +98,20 @@ public class ParticleHost extends JPanel {
         queuedForSpawn.add(particle);
     }
 
+    public int fps;
+
+    private long nextSecond = System.currentTimeMillis() + 100;
+    private int frameInCurrentSecond = 0;
+
     public void paint(Graphics g) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > nextSecond) {
+            nextSecond += 100;
+            fps = frameInCurrentSecond;
+            frameInCurrentSecond = 0;
+        }
+        frameInCurrentSecond++;
+
         g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
@@ -124,5 +137,9 @@ public class ParticleHost extends JPanel {
 
     public void addRespawnTask(Respawnable task) {
         respawnTasks.add(task);
+    }
+
+    public void clear() {
+        alive.clear();
     }
 }

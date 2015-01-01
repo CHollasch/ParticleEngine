@@ -5,7 +5,7 @@ package me.hollasch.particles;
  */
 public abstract class Respawnable {
 
-    protected ParticleHost host;
+    protected ParticleSystem host;
     protected long tick;
     private int frequency;
 
@@ -20,7 +20,7 @@ public abstract class Respawnable {
         return this;
     }
 
-    public Respawnable setHost(ParticleHost host) {
+    public Respawnable setHost(ParticleSystem host) {
         this.host = host;
         return this;
     }

@@ -28,5 +28,5 @@ public abstract class Particle {
 
     public abstract void tick();
 
-    public abstract void paint(ParticleHost particleHost, Graphics g);
+    public abstract void paint(ParticleSystem particleHost, Graphics g);
 }

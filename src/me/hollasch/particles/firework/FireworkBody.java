@@ -1,7 +1,7 @@
 package me.hollasch.particles.firework;
 
 import me.hollasch.particles.Particle;
-import me.hollasch.particles.ParticleHost;
+import me.hollasch.particles.ParticleSystem;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
@@ -54,7 +54,7 @@ public class FireworkBody extends Particle {
         centerY -= (speed-=0.01);
     }
 
-    public void paint(ParticleHost particleHost, Graphics g) {
+    public void paint(ParticleSystem particleHost, Graphics g) {
         if (dead) {
             //explode
             boolean twinkle = (Math.random() < .05);
