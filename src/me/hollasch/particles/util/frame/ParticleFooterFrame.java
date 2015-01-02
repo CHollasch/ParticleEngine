@@ -1,4 +1,4 @@
-package me.hollasch.particles.util;
+package me.hollasch.particles.util.frame;
 
 import me.hollasch.particles.ParticleMain;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -14,8 +14,15 @@ import java.awt.event.ActionListener;
  */
 public class ParticleFooterFrame extends JPanel {
 
-    public ParticleFooterFrame() {
-        setLayout(new BorderLayout());
+    public ParticleFooterFrame(final ParticleSystem host) {
+        setLayout(new GridLayout(1, 3));
+
+        JButton debug = new JButton("Toggle Debug Mode");
+        debug.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                host.toggleDebugMode();
+            }
+        });
 
         JButton visibility = new JButton("Toggle Options Visibility");
         visibility.addActionListener(new ActionListener() {
@@ -24,7 +31,8 @@ public class ParticleFooterFrame extends JPanel {
             }
         });
 
-        add(visibility, BorderLayout.EAST);
-        add(new JLabel("Particle System v" + ParticleMain.VERSION_ID + ", By: Connor H. & Jason S."), BorderLayout.CENTER);
+        add(new JLabel("Particle System v" + ParticleMain.VERSION_ID + ", By: Connor H. & Jason S."), 0, 0);
+        add(debug, 0, 1);
+        add(visibility, 0, 2);
     }
 }

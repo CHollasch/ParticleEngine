@@ -1,4 +1,4 @@
-package me.hollasch.particles.util;
+package me.hollasch.particles.util.frame;
 
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -6,6 +6,7 @@ import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.options.NumberSliderOption;
 import me.hollasch.particles.options.Source;
 import me.hollasch.particles.options.UpdateEvent;
+import me.hollasch.particles.util.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,7 @@ public class ParticleControllerFrame extends JPanel {
 
         //================= FRAME UPDATE INTERVAL ==================
 
-        NumberSliderOption speedSlider = new NumberSliderOption(1, 25, 5, "Update Interval", new UpdateEvent<Integer>() {
+        NumberSliderOption speedSlider = new NumberSliderOption(1, 31, 5, "Update Interval", new UpdateEvent<Integer>() {
             public void onUpdate(Integer option) {
                 host.updateTickRate(option.intValue());
             }
@@ -48,6 +49,7 @@ public class ParticleControllerFrame extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JPanel mainOptions = new JPanel();
+        mainOptions.setLayout(new WrapLayout());
         mainOptions.add(new JLabel("Particle System Options"));
         mainOptions.add(speedSlider.get());
         mainOptions.add(clear);
