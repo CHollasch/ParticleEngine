@@ -11,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -18,6 +21,8 @@ import java.util.HashSet;
  * @since 1/1/2015
  */
 public class ParticleControllerFrame extends JPanel {
+
+    private static HashMap<String, JPanel> optionPanes = new HashMap<String, JPanel>();
 
     public ParticleControllerFrame(final ParticleSystem host) {
 
@@ -48,8 +53,34 @@ public class ParticleControllerFrame extends JPanel {
         mainOptions.add(clear);
         add(mainOptions);
 
+        JPanel spawnables = new JPanel();
+        spawnables.setLayout(new WrapLayout());
+        for (final Respawnable spawn : host.getRespawnTasks()) {
+            final JButton toggle = new JButton("Enable " + spawn.getName());
+            toggle.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (optionPanes.get(spawn.getName()).isVisible()) {
+                        //hide
+                        toggle.setText("Enable " + spawn.getName());
+                        optionPanes.get(spawn.getName()).setVisible(false);
+                        spawn.off();
+                    } else {
+                        //show
+                        toggle.setText("Disable " + spawn.getName());
+                        optionPanes.get(spawn.getName()).setVisible(true);
+                        optionPanes.get(spawn.getName()).updateUI();
+                        spawn.on();
+                    }
+                }
+            });
+            spawnables.add(toggle);
+        }
+
+        add(spawnables);
+
         for (final Respawnable spawn : host.getRespawnTasks()) {
             JPanel particlePane = new JPanel();
+            particlePane.setLayout(new WrapLayout());
 
             particlePane.add(new JLabel(spawn.getName() + " Options"));
 
@@ -69,22 +100,24 @@ public class ParticleControllerFrame extends JPanel {
                 particlePane.add((Component) option.get());
             }
 
-            final JToggleButton onOrOff = new JToggleButton("Toggle Off");
-            onOrOff.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    if (onOrOff.getText().endsWith("Off")) {
-                        //off
-                        spawn.off();
-                        onOrOff.setText("Toggle On");
-                    } else {
-                        //on
-                        spawn.on();
-                        onOrOff.setText("Toggle Off");
-                    }
-                }
-            });
-            particlePane.add(onOrOff);
+            optionPanes.put(spawn.getName(), particlePane);
+            particlePane.setVisible(false);
+            spawn.off();
             add(particlePane);
+
+            //CREATE TOGGLE BUTTON
         }
+
+        addComponentListener(new ComponentListener() {
+            public void componentResized(ComponentEvent e) {
+                for (JPanel p : optionPanes.values()) {
+                    p.updateUI();
+                }
+            }
+
+            public void componentMoved(ComponentEvent e) {}
+            public void componentShown(ComponentEvent e) {}
+            public void componentHidden(ComponentEvent e) {}
+        });
     }
 }

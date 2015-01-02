@@ -6,6 +6,7 @@ import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.respawn.Respawnable;
+import me.hollasch.particles.util.ColorUtil;
 import me.hollasch.particles.util.Range;
 
 /**
@@ -33,6 +34,7 @@ public class FireworkSpawnController extends Respawnable {
 
         addOption(FireworkSpark.SPEED_OPTION);
         addOption(TrailingSpark.TRAIL_LENGTH_OPTION);
+        addOption(TrailingSpark.BALL_SIZE_OPTION);
     }
 
     private Range childRange = new Range(100, 150);
@@ -44,7 +46,7 @@ public class FireworkSpawnController extends Respawnable {
                 ((.392 * Math.random() - .196)  + 1.57075 ),
                 speed.randomDouble(),
                 childRange,
-                ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]));
+                ColorUtil.colors[(int)(Math.random()*ColorUtil.colors.length)]));
     }
 
     @Override

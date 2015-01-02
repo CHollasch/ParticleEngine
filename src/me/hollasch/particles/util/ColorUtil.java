@@ -8,6 +8,8 @@ import java.awt.*;
  */
 public class ColorUtil {
 
+    public static Color[] colors = {Color.white, Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
+
     public static Color modifyBrightness(Color color, float darken) {
         int red = (int) (color.getRed() * darken);
         int green = (int) (color.getGreen() * darken);

@@ -14,7 +14,7 @@ public class SnowSpawnController extends Respawnable {
     public SnowSpawnController() {
         respawnRateRange = new Range(1, 50);
 
-        addOption(new NumberRangedOption(1, 10, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
+        addOption(new NumberRangedOption(1, 15, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 size = option;
             }

@@ -15,7 +15,7 @@ public class NumberSliderOption implements Source<JSlider> {
 
     public NumberSliderOption(Integer low, Integer high, Integer initial, String name, final UpdateEvent<Integer> onUpdate) {
         slider = new JSlider(low, high, initial);
-        slider.setMajorTickSpacing((high.intValue() - low.intValue()) / 10);
+        slider.setMajorTickSpacing((high.intValue() - low.intValue()) / 7);
         slider.setPaintTicks(true);
 
         Hashtable label = new Hashtable();

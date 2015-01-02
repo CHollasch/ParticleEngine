@@ -1,6 +1,7 @@
 package me.hollasch.particles.simulations.firework.trails;
 
 import me.hollasch.particles.options.NumberRangedOption;
+import me.hollasch.particles.options.NumberSliderOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -18,10 +19,17 @@ public class FireworkSpark extends Particle {
 
     //STATIC OPTIONS
     private static Range speedRange;
+    private static int ballSize = 3;
 
     public static NumberRangedOption SPEED_OPTION = new NumberRangedOption(10, 150, 20, 50, "Firework Size", new UpdateEvent<Range>() {
         public void onUpdate(Range option) {
             speedRange =  option;
+        }
+    });
+
+    public static NumberSliderOption BALL_SIZE_OPTION = new NumberSliderOption(1, 10, 3, "Spark Size", new UpdateEvent<Integer>() {
+        public void onUpdate(Integer option) {
+            ballSize = option;
         }
     });
 
@@ -93,7 +101,6 @@ public class FireworkSpark extends Particle {
         if (lifetime < sparkle)
             g.fillOval(getCenterX(), getCenterY(), (int) (Math.random() * 2 + 1), (int) (Math.random() * 2 + 1));
         else
-            g.fillOval(getCenterX(), getCenterY(), 3, 3);
-        //g.drawLine(lastX, lastY, getCenterX(), getCenterY());
+            g.fillOval(getCenterX(), getCenterY(), ballSize, ballSize);
     }
 }

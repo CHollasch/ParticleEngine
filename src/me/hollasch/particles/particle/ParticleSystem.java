@@ -92,8 +92,6 @@ public class ParticleSystem extends JPanel {
         }
     }
 
-    public static Color[] colors = {Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
-
     public void addRespawnTask(Respawnable task, int frequency) {
         Timer make = new Timer();
         make.scheduleAtFixedRate(new SpawnRateTask(task), frequency, frequency);
