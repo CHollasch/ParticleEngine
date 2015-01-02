@@ -98,7 +98,7 @@ public class FireworkSpark extends Particle {
             twinkle = false;
             return;
         }
-        g.setColor(color);
+        g.setColor(color.darker());
         for(int i = 0; i < Coords.size() / 2 - 1; i += 2) {
             g.drawLine(Coords.get(i),Coords.get(i + 1),Coords.get(i + 2),Coords.get(i + 3));
         }
