@@ -17,10 +17,10 @@ public class FireworkSpark extends Particle {
     private int lastX;
     private int lastY;
 
-    private int lifetime = (int) (Math.random() * 200 + 100);
+    private int lifetime = (int) (Math.random() * 800 + 900);
 
-    private double speed;
-    private double angle;
+    private double speedX;
+    private double speedY;
 
     private boolean twinkle;
 
@@ -35,10 +35,10 @@ public class FireworkSpark extends Particle {
 
         lastX = getCenterX();
         lastY = getCenterY();
-
-        speed = Math.random() + .3;
-
-        this.angle = angle;
+        double speed = 64 * Math.random() + .3;
+        FireworkBody body = (FireworkBody) parent;
+        speedX = speed * Math.cos(angle);
+        speedY = speed * Math.sin(angle);
     }
 
     public void setTwinkle(boolean twinkle) {
@@ -67,10 +67,12 @@ public class FireworkSpark extends Particle {
         lastX = getCenterX();
         lastY = getCenterY();
 
-        centerX -= speed * Math.cos(angle);
-        centerY -= speed * Math.sin(angle) - 0.15;
+        centerX -= speedX / 60;
+        centerY -= speedY / 60 - 4.905  * Math.pow(1 / 60,2);
+        speedX = speedX * .993;
+        speedY = speedY * .993;
+        speedY  = speedY - 4.905 / 60 ;
 
-        speed += (speed > 0 ? -0.003 : speed+0.003);
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {
