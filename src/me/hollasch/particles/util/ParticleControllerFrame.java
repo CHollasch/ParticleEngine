@@ -1,7 +1,7 @@
 package me.hollasch.particles.util;
 
-import me.hollasch.particles.ParticleSystem;
-import me.hollasch.particles.Respawnable;
+import me.hollasch.particles.particle.ParticleSystem;
+import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.options.NumberSliderOption;
 import me.hollasch.particles.options.Source;
 import me.hollasch.particles.options.UpdateEvent;

@@ -1,7 +1,9 @@
 package me.hollasch.particles.firework;
 
-import me.hollasch.particles.Particle;
-import me.hollasch.particles.ParticleSystem;
+import me.hollasch.particles.particle.Particle;
+import me.hollasch.particles.particle.ParticleSystem;
+import me.hollasch.particles.firework.trails.CrackleFireworkSpark;
+import me.hollasch.particles.firework.trails.FireworkSpark;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
@@ -33,10 +35,6 @@ public class FireworkBody extends Particle {
         this.lastY = y;
     }
 
-    public FireworkBody(int x, int y) {
-        this(x, y, ((.392 * Math.random() - .196)  + 1.57075 ), 30 *Math.random()+60, new Range(100, 150),  ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]);
-    }
-
     public void tick() {
         lastX = getCenterX();
         lastY = getCenterY();
@@ -55,10 +53,8 @@ public class FireworkBody extends Particle {
     public void paint(ParticleSystem particleHost, Graphics g) {
         if (dead) {
             //explode
-            boolean twinkle = (Math.random() < .05);
             for (int i = 0; i < children.randomInt(); i++) {
-                FireworkSpark spark = new FireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length-1)] : color));
-                spark.setTwinkle(twinkle);
+                FireworkSpark spark = new CrackleFireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length-1)] : color));
 
                 particleHost.addParticle(spark);
             }
@@ -67,5 +63,13 @@ public class FireworkBody extends Particle {
 
         g.drawLine(lastX, lastY, getCenterX(), getCenterY());
         g.fillOval(getCenterX(), getCenterY(), 3, 3);
+    }
+
+    public double getSpeedX() {
+        return speedX;
+    }
+
+    public double getSpeedY() {
+        return speedY;
     }
 }

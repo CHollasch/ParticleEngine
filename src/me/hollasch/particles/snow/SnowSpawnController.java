@@ -1,6 +1,6 @@
 package me.hollasch.particles.snow;
 
-import me.hollasch.particles.Respawnable;
+import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.util.Range;

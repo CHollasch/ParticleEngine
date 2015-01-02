@@ -1,4 +1,4 @@
-package me.hollasch.particles;
+package me.hollasch.particles.particle;
 
 import java.awt.*;
 
@@ -9,6 +9,7 @@ public abstract class Particle {
 
     protected double centerX;
     protected double centerY;
+
     protected boolean dead = false;
 
     protected Particle parent;

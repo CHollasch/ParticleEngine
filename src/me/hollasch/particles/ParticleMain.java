@@ -1,10 +1,8 @@
-package me.hollasch.particles.frame;
+package me.hollasch.particles;
 
-import me.hollasch.particles.ParticleSystem;
 import me.hollasch.particles.firework.FireworkRespawnTask;
-import me.hollasch.particles.snow.SnowSpawnController;
+import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.util.ParticleControllerFrame;
-import me.hollasch.particles.util.Range;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +18,8 @@ public class ParticleMain {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ParticleSystem host = new ParticleSystem(5);
-        host.addRespawnTask(new SnowSpawnController().setRandomDirection(new Range(-.25, .25)).setRandomSize(new Range(1, 5)).setHost(host).setFrequency(1));
-        //host.addRespawnTask(new FireworkRespawnTask().setHost(host).setFrequency(10));
+        //host.addRespawnTask(new SnowSpawnController().setRandomDirection(new Range(-.25, .25)).setRandomSize(new Range(1, 5)).setHost(host).setFrequency(1));
+        host.addRespawnTask(new FireworkRespawnTask().setHost(host).setFrequency(10));
 
         frame.setLayout(new BorderLayout());
 

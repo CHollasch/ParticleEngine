@@ -1,4 +1,6 @@
-package me.hollasch.particles;
+package me.hollasch.particles.particle;
+
+import me.hollasch.particles.respawn.Respawnable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +28,7 @@ public class ParticleSystem extends JPanel {
     }
 
     private HashSet<Particle> queuedForSpawn = new HashSet<Particle>();
+    private HashSet<Particle> queuedForDespawn = new HashSet<Particle>();
 
     public int getTickRate() {
         return millisTickRate;
@@ -69,8 +72,6 @@ public class ParticleSystem extends JPanel {
         g.setColor(Color.white);
 
         synchronized (this) {
-            HashSet<Particle> remove = new HashSet<Particle>();
-
             for (Particle p : alive) {
                 Color old = g.getColor();
                 g.setColor(Color.white);
@@ -78,10 +79,12 @@ public class ParticleSystem extends JPanel {
                 g.setColor(old);
 
                 if (p.dead || p.getCenterX() > getWidth() || p.getCenterX() < 0 || p.getCenterY() > getHeight() || p.getCenterY() < 0)
-                    remove.add(p);
+                    queuedForDespawn.add(p);
             }
 
-            alive.removeAll(remove);
+            alive.removeAll(queuedForDespawn);
+            queuedForDespawn.clear();
+
             alive.addAll(queuedForSpawn);
             queuedForSpawn.clear();
         }
@@ -98,7 +101,7 @@ public class ParticleSystem extends JPanel {
     }
 
     public void clear() {
-        alive.clear();
+        queuedForDespawn.addAll(alive);
     }
 
     public HashSet<Respawnable> getRespawnTasks() {

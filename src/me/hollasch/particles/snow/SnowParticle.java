@@ -1,7 +1,7 @@
 package me.hollasch.particles.snow;
 
-import me.hollasch.particles.Particle;
-import me.hollasch.particles.ParticleSystem;
+import me.hollasch.particles.particle.Particle;
+import me.hollasch.particles.particle.ParticleSystem;
 
 import java.awt.*;
 

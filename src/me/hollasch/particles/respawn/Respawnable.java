@@ -1,7 +1,10 @@
-package me.hollasch.particles;
+package me.hollasch.particles.respawn;
 
+import me.hollasch.particles.particle.Particle;
+import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.options.Source;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 
 /**
@@ -10,7 +13,7 @@ import java.util.HashSet;
 public abstract class Respawnable {
 
     protected ParticleSystem host;
-    protected long tick;
+    public long tick;
     private int frequency;
 
     private HashSet<Source<?>> options = new HashSet<Source<?>>();
