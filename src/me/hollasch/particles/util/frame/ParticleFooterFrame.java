@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class ParticleFooterFrame extends JPanel {
 
     public ParticleFooterFrame(final ParticleSystem host) {
-        setLayout(new GridLayout(1, 3));
+        setLayout(new GridLayout(1, 4));
 
         JButton debug = new JButton("Toggle Debug Mode");
         debug.addActionListener(new ActionListener() {
@@ -31,8 +31,22 @@ public class ParticleFooterFrame extends JPanel {
             }
         });
 
+        JButton fullscreen = new JButton("Toggle Fullscreen");
+        fullscreen.addActionListener(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (ParticleMain.MAIN_FRAME.isUndecorated()) {
+                    //fullscreen
+                    ParticleMain.MAIN_FRAME.getRootPane().getActionMap().get("Cancel").actionPerformed(null);
+                } else {
+                    //not fullscreen
+                    ParticleMain.MAIN_FRAME.getRootPane().getActionMap().get("Fullscreen").actionPerformed(null);
+                }
+            }
+        });
+
         add(new JLabel("Particle System v" + ParticleMain.VERSION_ID + ", By: Connor H. & Jason S."), 0, 0);
         add(debug, 0, 1);
         add(visibility, 0, 2);
+        add(fullscreen, 0, 3);
     }
 }

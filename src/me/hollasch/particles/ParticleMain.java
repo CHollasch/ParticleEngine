@@ -9,6 +9,7 @@ import me.hollasch.particles.util.frame.ParticleFooterFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -30,6 +31,34 @@ public class ParticleMain {
         MAIN_FRAME.setMinimumSize(new Dimension(480, 640));
 
         MAIN_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //FOR FULLSCREEN
+        {
+            MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "Fullscreen");
+            MAIN_FRAME.getRootPane().getActionMap().put("Fullscreen", new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    MAIN_FRAME.setBounds(0, 0, MAIN_FRAME.getToolkit().getScreenSize().width, MAIN_FRAME.getToolkit().getScreenSize().height);
+                    MAIN_FRAME.dispose();
+                    MAIN_FRAME.setUndecorated(true);
+                    MAIN_FRAME.setVisible(true);
+                }
+            });
+        }
+
+        //FOR FULLSCREEN ESCAPE
+        {
+            MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+            MAIN_FRAME.getRootPane().getActionMap().put("Cancel", new AbstractAction() { //$NON-NLS-1$
+                public void actionPerformed(ActionEvent e) {
+                    MAIN_FRAME.dispose();
+                    MAIN_FRAME.setUndecorated(false);
+                    MAIN_FRAME.setSize(1000, 1000);
+                    MAIN_FRAME.setVisible(true);
+                }
+            });
+        }
 
         final ParticleSystem host = new ParticleSystem(5);
 
