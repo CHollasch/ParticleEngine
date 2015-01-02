@@ -5,6 +5,8 @@ import me.hollasch.particles.ParticleSystem;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author Connor Hollasch
@@ -25,6 +27,8 @@ public class FireworkSpark extends Particle {
 
     private boolean twinkle;
 
+    private List<Integer> Coords = new ArrayList<Integer>();
+
     public FireworkSpark(int x, int y, Particle parent, double angle, Color color) {
         super(x, y);
         this.color = color;
@@ -37,9 +41,9 @@ public class FireworkSpark extends Particle {
         lastX = getCenterX();
         lastY = getCenterY();
         double speed = 64 * Math.random() + .3;
-
-        speedX = speed * Math.cos(angle);
-        speedY = speed * Math.sin(angle);
+        FireworkBody par = (FireworkBody)parent;
+        speedX = speed * Math.cos(angle) - par.speedX;
+        speedY = speed * Math.sin(angle) + par.speedY;
     }
 
     public void setTwinkle(boolean twinkle) {
@@ -76,7 +80,8 @@ public class FireworkSpark extends Particle {
 
         lastX = getCenterX();
         lastY = getCenterY();
-
+        Coords.add(lastX);
+        Coords.add(lastY);
         centerX -= speedX * .0166;
         centerY -= speedY * .0166 - 4.905 * .00277;
         speedX = speedX * .993;
@@ -93,7 +98,10 @@ public class FireworkSpark extends Particle {
             twinkle = false;
             return;
         }
-
+        g.setColor(color.darker());
+        for(int i = 0; i < Coords.size() / 2 - 1; i += 2) {
+            g.drawLine(Coords.get(i),Coords.get(i + 1),Coords.get(i + 2),Coords.get(i + 3));
+        }
         g.setColor(color);
         g.drawLine(lastX, lastY, getCenterX(), getCenterY());
     }
