@@ -11,9 +11,6 @@ import java.util.Hashtable;
  */
 public class IntSliderOption implements Source<JSlider> {
 
-    private int low;
-    private int high;
-
     private JSlider slider;
 
     public IntSliderOption(int low, int high, int initial, String name, final UpdateEvent<Integer> onUpdate) {
@@ -39,13 +36,5 @@ public class IntSliderOption implements Source<JSlider> {
 
     public JSlider get() {
         return slider;
-    }
-
-    public int getLowValue() {
-        return low;
-    }
-
-    public int getHighValue() {
-        return high;
     }
 }

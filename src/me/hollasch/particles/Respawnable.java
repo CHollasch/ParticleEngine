@@ -1,5 +1,9 @@
 package me.hollasch.particles;
 
+import me.hollasch.particles.options.Source;
+
+import java.util.HashSet;
+
 /**
  * Created by Connor on 12/31/2014.
  */
@@ -8,6 +12,8 @@ public abstract class Respawnable {
     protected ParticleSystem host;
     protected long tick;
     private int frequency;
+
+    private HashSet<Source<?>> options = new HashSet<Source<?>>();
 
     public abstract void run();
 
@@ -23,5 +29,9 @@ public abstract class Respawnable {
     public Respawnable setHost(ParticleSystem host) {
         this.host = host;
         return this;
+    }
+
+    public HashSet<Source<?>> getOptions() {
+        return options;
     }
 }

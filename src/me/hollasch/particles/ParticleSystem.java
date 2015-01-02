@@ -19,31 +19,8 @@ public class ParticleSystem extends JPanel {
     private java.util.Timer spawnTask;
 
     public ParticleSystem(int updateInterval) {
-        tickTask = new java.util.Timer();
-        tickTask.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                synchronized (ParticleSystem.this) {
-                    for (Particle p : alive) {
-                        p.tick();
-                    }
-
-                    repaint();
-                }
-            }
-        }, updateInterval, updateInterval);
-
-        spawnTask = new java.util.Timer();
-        spawnTask.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                synchronized (ParticleSystem.this) {
-                    for (Respawnable respawn : respawnTasks) {
-                        respawn.tick++;
-                        if (respawn.spawn())
-                            respawn.run();
-                    }
-                }
-            }
-        }, 1, 1);
+        updateTickRate(updateInterval);
+        updateSpawnRate();
 
         this.millisTickRate = updateInterval;
     }
@@ -55,37 +32,23 @@ public class ParticleSystem extends JPanel {
     }
 
     public void updateTickRate(int now) {
-        tickTask.cancel();
-        tickTask = new java.util.Timer();
-        tickTask.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                synchronized (ParticleSystem.this) {
-                    for (Particle p : alive) {
-                        p.tick();
-                    }
+        if (tickTask != null) {
+            tickTask.cancel();
+        }
 
-                    repaint();
-                }
-            }
-        }, now, now);
+        tickTask = new java.util.Timer();
+        tickTask.scheduleAtFixedRate(new TickRateTask(), now, now);
         this.millisTickRate = now;
         updateSpawnRate();
     }
 
     private void updateSpawnRate() {
-        spawnTask.cancel();
+        if (spawnTask != null) {
+            spawnTask.cancel();
+        }
+
         spawnTask = new java.util.Timer();
-        spawnTask.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                synchronized (ParticleSystem.this) {
-                    for (Respawnable respawn : respawnTasks) {
-                        respawn.tick++;
-                        if (respawn.spawn())
-                            respawn.run();
-                    }
-                }
-            }
-        }, millisTickRate, millisTickRate);
+        spawnTask.scheduleAtFixedRate(new SpawnRateTask(), millisTickRate, millisTickRate);
     }
 
     public void setRespawnFrequency(int frequency) {
@@ -98,21 +61,10 @@ public class ParticleSystem extends JPanel {
         queuedForSpawn.add(particle);
     }
 
-    public int fps;
-
-    private long nextSecond = System.currentTimeMillis() + 100;
-    private int frameInCurrentSecond = 0;
+    private Color backgroundColor;
 
     public void paint(Graphics g) {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime > nextSecond) {
-            nextSecond += 100;
-            fps = frameInCurrentSecond;
-            frameInCurrentSecond = 0;
-        }
-        frameInCurrentSecond++;
-
-        g.setColor(Color.black);
+        g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
 
@@ -135,11 +87,41 @@ public class ParticleSystem extends JPanel {
         }
     }
 
+    public static Color[] colors = {Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
+
+    public void setBackgroundColor(Color color) {
+        this.backgroundColor = color;
+    }
+
     public void addRespawnTask(Respawnable task) {
         respawnTasks.add(task);
     }
 
     public void clear() {
         alive.clear();
+    }
+
+    private class SpawnRateTask extends TimerTask {
+        public void run() {
+            synchronized (ParticleSystem.this) {
+                for (Respawnable respawn : respawnTasks) {
+                    respawn.tick++;
+                    if (respawn.spawn())
+                        respawn.run();
+                }
+            }
+        }
+    }
+
+    private class TickRateTask extends TimerTask {
+        public void run() {
+            synchronized (ParticleSystem.this) {
+                for (Particle p : alive) {
+                    p.tick();
+                }
+
+                repaint();
+            }
+        }
     }
 }

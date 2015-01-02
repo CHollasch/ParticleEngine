@@ -12,8 +12,6 @@ import java.awt.*;
  */
 public class FireworkBody extends Particle {
 
-    private static Color[] colors = {Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
-
     protected Color color;
 
     protected double direction;
@@ -36,7 +34,7 @@ public class FireworkBody extends Particle {
     }
 
     public FireworkBody(int x, int y) {
-        this(x, y, (Math.random()-.5), Math.random()+3, new Range(100, 150),  colors[(int)(Math.random()*colors.length)]);
+        this(x, y, (Math.random()-.5), Math.random()+3, new Range(100, 150),  ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]);
     }
 
     public void tick() {
@@ -59,7 +57,7 @@ public class FireworkBody extends Particle {
             //explode
             boolean twinkle = (Math.random() < .05);
             for (int i = 0; i < children.randomInt(); i++) {
-                FireworkSpark spark = new FireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? colors[(int)(Math.random()*colors.length-1)] : color));
+                FireworkSpark spark = new FireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length-1)] : color));
                 spark.setTwinkle(twinkle);
 
                 particleHost.addParticle(spark);
