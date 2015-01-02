@@ -9,18 +9,18 @@ import java.util.Hashtable;
  * @author Connor Hollasch
  * @since 1/1/2015
  */
-public class IntSliderOption implements Source<JSlider> {
+public class NumberSliderOption implements Source<JSlider> {
 
     private JSlider slider;
 
-    public IntSliderOption(int low, int high, int initial, String name, final UpdateEvent<Integer> onUpdate) {
+    public NumberSliderOption(Integer low, Integer high, Integer initial, String name, final UpdateEvent<Integer> onUpdate) {
         slider = new JSlider(low, high, initial);
-        slider.setMajorTickSpacing((high - low) / 5);
-        slider.setMinorTickSpacing((high - low) / 10);
+        slider.setMajorTickSpacing((high.intValue() - low.intValue()) / 5);
+        slider.setMinorTickSpacing((high.intValue() - low.intValue()) / 10);
         slider.setPaintTicks(true);
 
         Hashtable label = new Hashtable();
-        label.put((high - low) / 2, new JLabel(name));
+        label.put((high.intValue() - low.intValue()) / 2, new JLabel(name));
 
         slider.setLabelTable(label);
         slider.setPaintLabels(true);

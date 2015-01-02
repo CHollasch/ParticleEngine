@@ -31,6 +31,10 @@ public abstract class Respawnable {
         return this;
     }
 
+    protected void addOption(Source<?> option) {
+        this.options.add(option);
+    }
+
     public HashSet<Source<?>> getOptions() {
         return options;
     }

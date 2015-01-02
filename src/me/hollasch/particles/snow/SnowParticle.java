@@ -24,7 +24,7 @@ public class SnowParticle extends Particle {
     public void tick() {
         degs++;
         centerY += 0.5;
-        centerX += (direction + Math.sin(Math.toRadians(degs/2)) * .15);
+        centerX += (direction + Math.sin(Math.toRadians(degs/5)) * .15);
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {

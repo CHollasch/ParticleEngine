@@ -1,15 +1,15 @@
 package me.hollasch.particles.util;
 
 import me.hollasch.particles.ParticleSystem;
-import me.hollasch.particles.options.IntSliderOption;
+import me.hollasch.particles.Respawnable;
+import me.hollasch.particles.options.NumberSliderOption;
+import me.hollasch.particles.options.Source;
 import me.hollasch.particles.options.UpdateEvent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.Timer;
 
 /**
  * @author Connor Hollasch
@@ -20,17 +20,17 @@ public class ParticleControllerFrame extends JPanel {
     public ParticleControllerFrame(final ParticleSystem host) {
         //================= FRAME UPDATE INTERVAL ==================
 
-        IntSliderOption speedSlider = new IntSliderOption(1, 25, 5, "Update Interval", new UpdateEvent<Integer>() {
+        NumberSliderOption speedSlider = new NumberSliderOption(1, 25, 5, "Update Interval", new UpdateEvent<Integer>() {
             public void onUpdate(Integer option) {
-                host.updateTickRate(option);
+                host.updateTickRate(option.intValue());
             }
         });
 
         //================= RESPAWN FREQUENCY ==================
 
-        final IntSliderOption respawnSlider = new IntSliderOption(5, 1000, 900, "Respawn Interval", new UpdateEvent<Integer>() {
+        final NumberSliderOption respawnSlider = new NumberSliderOption(5, 1000, 900, "Respawn Interval", new UpdateEvent<Integer>() {
             public void onUpdate(Integer option) {
-                host.setRespawnFrequency(-option + 995);
+                host.setRespawnFrequency(-option.intValue() + 995);
             }
         });
 
@@ -48,6 +48,11 @@ public class ParticleControllerFrame extends JPanel {
         setLayout(new FlowLayout());
         add(speedSlider.get());
         add(respawnSlider.get());
+        for (Respawnable spawn : host.getRespawnTasks()) {
+            for (Source<?> option : spawn.getOptions()) {
+                add((Component) option.get());
+            }
+        }
         add(clear);
     }
 }

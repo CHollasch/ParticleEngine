@@ -101,6 +101,10 @@ public class ParticleSystem extends JPanel {
         alive.clear();
     }
 
+    public HashSet<Respawnable> getRespawnTasks() {
+        return respawnTasks;
+    }
+
     private class SpawnRateTask extends TimerTask {
         public void run() {
             synchronized (ParticleSystem.this) {
