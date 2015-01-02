@@ -14,7 +14,6 @@ import java.awt.*;
  */
 public class ParticleMain {
 
-    public static int totalFrameCount = 0;
     public static void main(String[] args) {
         JFrame frame = new JFrame("Particle Framework");
         frame.setSize(new Dimension(1000, 1000));

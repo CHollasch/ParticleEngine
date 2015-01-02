@@ -1,6 +1,8 @@
 package me.hollasch.particles.util;
 
 import me.hollasch.particles.ParticleSystem;
+import me.hollasch.particles.options.IntSliderOption;
+import me.hollasch.particles.options.UpdateEvent;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -19,42 +21,20 @@ public class ParticleControllerFrame extends JPanel {
 
     public ParticleControllerFrame(final ParticleSystem host) {
         //================= FRAME UPDATE INTERVAL ==================
-        JSlider speed = new JSlider(JSlider.HORIZONTAL, 1, 25, 20);
 
-        speed.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                JSlider source = (JSlider) e.getSource();
-
-                host.updateTickRate(source.getValue());
+        IntSliderOption speedSlider = new IntSliderOption(1, 25, 20, "Update Interval", new UpdateEvent<Integer>() {
+            public void onUpdate(Integer option) {
+                host.updateTickRate(option);
             }
         });
-        speed.setMajorTickSpacing(5);
-        speed.setPaintTicks(true);
-
-        Hashtable speedLabel = new Hashtable();
-        speedLabel.put(12, new JLabel("Update Interval"));
-        speed.setLabelTable(speedLabel);
-        speed.setPaintLabels(true);
 
         //================= RESPAWN FREQUENCY ==================
 
-        JSlider respawn = new JSlider(JSlider.HORIZONTAL, 5, 1000, 30);
-
-        respawn.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                JSlider source = (JSlider) e.getSource();
-
-                host.setRespawnFrequency(-source.getValue() + 995);
+        final IntSliderOption respawnSlider = new IntSliderOption(5, 1000, 30, "Respawn Interval", new UpdateEvent<Integer>() {
+            public void onUpdate(Integer option) {
+                host.setRespawnFrequency(-option + 995);
             }
         });
-        host.setRespawnFrequency(-respawn.getValue() + 995);
-        respawn.setMajorTickSpacing(50);
-        respawn.setPaintTicks(true);
-
-        Hashtable respawnTable = new Hashtable();
-        respawnTable.put(500, new JLabel("Respawn Interval"));
-        respawn.setLabelTable(respawnTable);
-        respawn.setPaintLabels(true);
 
         //================= CLEAR SCREEN ==================
 
@@ -77,8 +57,8 @@ public class ParticleControllerFrame extends JPanel {
         //======================================================
 
         setLayout(new FlowLayout());
-        add(speed);
-        add(respawn);
+        add(speedSlider.get());
+        add(respawnSlider.get());
         add(clear);
         add(fps, FlowLayout.LEADING);
     }
