@@ -14,8 +14,8 @@ public class FireworkBody extends Particle {
 
     protected Color color;
 
-    protected double direction;
-    protected double speed;
+    protected double speedY;
+    protected double speedX;
 
     private Range children;
 
@@ -24,8 +24,8 @@ public class FireworkBody extends Particle {
 
     public FireworkBody(int x, int y, double direction, double speed, Range children, Color color) {
         super(x, y);
-        this.direction = direction;
-        this.speed = speed;
+        this.speedX = speed * Math.cos(direction);
+        this.speedY = speed * Math.sin(direction);
         this.children = children;
         this.color = color;
 
@@ -34,22 +34,22 @@ public class FireworkBody extends Particle {
     }
 
     public FireworkBody(int x, int y) {
-        this(x, y, (Math.random()-.5), Math.random()+3, new Range(100, 150),  ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]);
+        this(x, y, ((.392 * Math.random() - .196)  + 1.57075 ), 30 *Math.random()+60, new Range(100, 150),  ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]);
     }
 
     public void tick() {
         lastX = getCenterX();
         lastY = getCenterY();
 
-        if (speed < 0.1) {
+        if (speedY < 20) {
             dead = true;
             return;
         }
 
-        direction += (.0003 * direction);
+        speedY -= 4.905 / 60;
 
-        centerX += direction;
-        centerY -= (speed-=0.01);
+        centerX += speedX / 60;
+        centerY -= speedY / 60 + -4.905 / 360;
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {

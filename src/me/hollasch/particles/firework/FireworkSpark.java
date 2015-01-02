@@ -37,9 +37,9 @@ public class FireworkSpark extends Particle {
         lastX = getCenterX();
         lastY = getCenterY();
         double speed = 64 * Math.random() + .3;
-
-        speedX = speed * Math.cos(angle);
-        speedY = speed * Math.sin(angle);
+        FireworkBody par = (FireworkBody)parent;
+        speedX = speed * Math.cos(angle) - par.speedX;
+        speedY = speed * Math.sin(angle) + par.speedY;
     }
 
     public void setTwinkle(boolean twinkle) {
