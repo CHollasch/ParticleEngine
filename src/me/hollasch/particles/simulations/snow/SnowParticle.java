@@ -1,4 +1,4 @@
-package me.hollasch.particles.snow;
+package me.hollasch.particles.simulations.snow;
 
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;

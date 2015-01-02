@@ -1,10 +1,9 @@
-package me.hollasch.particles.firework;
+package me.hollasch.particles.simulations.firework;
 
-import me.hollasch.particles.firework.trails.TrailingSpark;
+import me.hollasch.particles.simulations.firework.trails.TrailingSpark;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
-import me.hollasch.particles.firework.trails.CrackleFireworkSpark;
-import me.hollasch.particles.firework.trails.FireworkSpark;
+import me.hollasch.particles.simulations.firework.trails.FireworkSpark;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
@@ -45,10 +44,10 @@ public class FireworkBody extends Particle {
             return;
         }
 
-        speedY -= 4.905 / 60;
+        speedY -= 4.905 * 0.016;
 
-        centerX += speedX / 60;
-        centerY -= speedY / 60 + -4.905 / 360;
+        centerX += speedX * 0.016;
+        centerY -= speedY * 0.016 + -4.9 * 0.002;
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {

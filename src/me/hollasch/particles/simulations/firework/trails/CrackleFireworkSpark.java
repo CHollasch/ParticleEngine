@@ -1,4 +1,4 @@
-package me.hollasch.particles.firework.trails;
+package me.hollasch.particles.simulations.firework.trails;
 
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;

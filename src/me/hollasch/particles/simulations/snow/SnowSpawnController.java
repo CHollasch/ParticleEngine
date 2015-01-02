@@ -1,4 +1,4 @@
-package me.hollasch.particles.snow;
+package me.hollasch.particles.simulations.snow;
 
 import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.options.NumberRangedOption;
@@ -12,6 +12,8 @@ import me.hollasch.particles.util.Range;
 public class SnowSpawnController extends Respawnable {
 
     public SnowSpawnController() {
+        respawnRateRange = new Range(1, 50);
+
         addOption(new NumberRangedOption(1, 10, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 size = option;

@@ -1,10 +1,10 @@
-package me.hollasch.particles.firework.trails;
+package me.hollasch.particles.simulations.firework.trails;
 
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
-import me.hollasch.particles.firework.FireworkBody;
+import me.hollasch.particles.simulations.firework.FireworkBody;
 import me.hollasch.particles.util.ColorUtil;
 import me.hollasch.particles.util.Range;
 

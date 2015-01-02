@@ -4,8 +4,9 @@ import me.hollasch.particles.respawn.Respawnable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Connor on 12/31/2014.
@@ -15,14 +16,12 @@ public class ParticleSystem extends JPanel {
     private int millisTickRate = 50;
 
     private HashSet<Particle> alive = new HashSet<Particle>();
-    private HashSet<Respawnable> respawnTasks = new HashSet<Respawnable>();
+    private ConcurrentHashMap<Respawnable, Timer> respawnTasks = new ConcurrentHashMap<Respawnable, Timer>();
 
     private java.util.Timer tickTask;
-    private java.util.Timer spawnTask;
 
     public ParticleSystem(int updateInterval) {
         updateTickRate(updateInterval);
-        updateSpawnRate();
 
         this.millisTickRate = updateInterval;
     }
@@ -42,22 +41,25 @@ public class ParticleSystem extends JPanel {
         tickTask = new java.util.Timer();
         tickTask.scheduleAtFixedRate(new TickRateTask(), now, now);
         this.millisTickRate = now;
-        updateSpawnRate();
     }
 
-    private void updateSpawnRate() {
-        if (spawnTask != null) {
-            spawnTask.cancel();
-        }
+    public void setRespawnFrequency(Respawnable respawn, int frequency) {
+        respawn = matches(respawn.getName());
 
-        spawnTask = new java.util.Timer();
-        spawnTask.scheduleAtFixedRate(new SpawnRateTask(), millisTickRate, millisTickRate);
+        respawnTasks.get(respawn).cancel();
+
+        Timer make = new Timer();
+        make.scheduleAtFixedRate(new SpawnRateTask(respawn), frequency, frequency);
+
+        respawnTasks.put(respawn, make);
     }
 
-    public void setRespawnFrequency(int frequency) {
-        for (Respawnable respawn : respawnTasks) {
-            respawn.setFrequency(frequency);
+    private Respawnable matches(String name) {
+        for (Respawnable key : respawnTasks.keySet()) {
+            if (key.getName().equals(name))
+                return key;
         }
+        return null;
     }
 
     public void addParticle(Particle particle) {
@@ -92,26 +94,40 @@ public class ParticleSystem extends JPanel {
 
     public static Color[] colors = {Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
 
-    public void addRespawnTask(Respawnable task) {
-        respawnTasks.add(task);
+    public void addRespawnTask(Respawnable task, int frequency) {
+        Timer make = new Timer();
+        make.scheduleAtFixedRate(new SpawnRateTask(task), frequency, frequency);
+
+        respawnTasks.put(task, make);
     }
 
     public void clear() {
         queuedForDespawn.addAll(alive);
     }
 
-    public HashSet<Respawnable> getRespawnTasks() {
-        return respawnTasks;
+    public Set<Respawnable> getRespawnTasks() {
+        return respawnTasks.keySet();
+    }
+
+    public void addRespawnTask(Respawnable respawnable) {
+        int min = (int) respawnable.getRespawnRateRange().getMinimum();
+        int max = (int) respawnable.getRespawnRateRange().getMaximum();
+
+        addRespawnTask(respawnable, ((max - min) / 2));
     }
 
     private class SpawnRateTask extends TimerTask {
+        private Respawnable target;
+
+        private SpawnRateTask(Respawnable target) {
+            this.target = target;
+        }
+
         public void run() {
             synchronized (ParticleSystem.this) {
-                for (Respawnable respawn : respawnTasks) {
-                    respawn.tick++;
-                    if (respawn.spawn())
-                        respawn.run();
-                }
+                target.tick++;
+                if (target.spawn())
+                    target.run();
             }
         }
     }

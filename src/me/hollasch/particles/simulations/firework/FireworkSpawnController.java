@@ -1,7 +1,7 @@
-package me.hollasch.particles.firework;
+package me.hollasch.particles.simulations.firework;
 
-import me.hollasch.particles.firework.trails.FireworkSpark;
-import me.hollasch.particles.firework.trails.TrailingSpark;
+import me.hollasch.particles.simulations.firework.trails.FireworkSpark;
+import me.hollasch.particles.simulations.firework.trails.TrailingSpark;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
@@ -12,9 +12,11 @@ import me.hollasch.particles.util.Range;
  * @author Connor Hollasch
  * @since 12/31/2014
  */
-public class FireworkRespawnTask extends Respawnable {
+public class FireworkSpawnController extends Respawnable {
 
-    public FireworkRespawnTask() {
+    public FireworkSpawnController() {
+        respawnRateRange = new Range(10, 200);
+
         addOption(new NumberRangedOption(10, 500, 100, 150, "Spark Count", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 childRange = option;

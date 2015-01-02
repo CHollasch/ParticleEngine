@@ -1,12 +1,10 @@
 package me.hollasch.particles.respawn;
 
-import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.options.Source;
+import me.hollasch.particles.util.Range;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -15,6 +13,8 @@ import java.util.List;
 public abstract class Respawnable {
 
     protected ParticleSystem host;
+    protected Range respawnRateRange = new Range(10, 1000);
+
     public long tick;
     private int frequency;
 
@@ -54,5 +54,9 @@ public abstract class Respawnable {
 
     public void on() {
         go = true;
+    }
+
+    public Range getRespawnRateRange() {
+        return respawnRateRange;
     }
 }

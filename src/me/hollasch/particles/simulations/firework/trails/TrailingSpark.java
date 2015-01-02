@@ -1,4 +1,4 @@
-package me.hollasch.particles.firework.trails;
+package me.hollasch.particles.simulations.firework.trails;
 
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
@@ -40,11 +40,10 @@ public class TrailingSpark extends FireworkSpark {
         maxTrailLength = trailRange.randomInt();
     }
 
-    @Override
     public void tick() {
         super.tick();
 
-        if (lifetime < (initialLifespan / 2)) {
+        if (lifetime < (initialLifespan >> 1)) {
             trail = ColorUtil.modifyBrightness(trail, .999f);
         }
 

@@ -18,8 +18,7 @@ public class NumberRangedOption implements Source<RangeSlider> {
 
     public NumberRangedOption(int low, int high, int initLow, int initHigh, String name, final UpdateEvent<Range> onUpdate) {
         slider = new RangeSlider(low, high);
-        slider.setMajorTickSpacing((high - low) / 5);
-        slider.setMinorTickSpacing((high - low) / 10);
+        slider.setMajorTickSpacing((high - low) / 10);
         slider.setPaintTicks(true);
 
         slider.setValue(initLow);
