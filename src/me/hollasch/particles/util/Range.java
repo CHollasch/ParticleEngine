@@ -26,4 +26,12 @@ public class Range {
     public int randomInt() {
         return (int) ((Math.random() * (max - min)) + min);
     }
+
+    public double getMinimum() {
+        return min;
+    }
+
+    public double getMaximum() {
+        return max;
+    }
 }

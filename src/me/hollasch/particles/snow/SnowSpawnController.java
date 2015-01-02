@@ -17,6 +17,15 @@ public class SnowSpawnController extends Respawnable {
                 size = option;
             }
         }));
+
+        addOption(new NumberRangedOption(-10, 10, -5, 5, "Snowfall Direction", new UpdateEvent<Range>() {
+            public void onUpdate(Range option) {
+                double min = option.getMinimum();
+                double max = option.getMaximum();
+
+                direction = new Range(min/10d, max/10d);
+            }
+        }));
     }
 
     private Range size = new Range(1, 3);
@@ -27,13 +36,8 @@ public class SnowSpawnController extends Respawnable {
             host.addParticle(new SnowParticle((int) (Math.random() * host.getWidth()), 0, direction.randomDouble(), size.randomInt()));
     }
 
-    public SnowSpawnController setRandomSize(Range range) {
-        this.size = range;
-        return this;
-    }
-
-    public SnowSpawnController setRandomDirection(Range range) {
-        this.direction = range;
-        return this;
+    @Override
+    public String getName() {
+        return "Snowflake";
     }
 }

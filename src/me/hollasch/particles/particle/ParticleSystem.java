@@ -92,10 +92,6 @@ public class ParticleSystem extends JPanel {
 
     public static Color[] colors = {Color.blue, Color.green, Color.magenta, Color.cyan, Color.orange, Color.pink, Color.red, Color.yellow, null};
 
-    public void setBackgroundColor(Color color) {
-        this.backgroundColor = color;
-    }
-
     public void addRespawnTask(Respawnable task) {
         respawnTasks.add(task);
     }

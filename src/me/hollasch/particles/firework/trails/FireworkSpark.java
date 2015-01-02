@@ -5,12 +5,10 @@ import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.firework.FireworkBody;
-import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.util.ColorUtil;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 
 /**
  * @author Connor Hollasch

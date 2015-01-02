@@ -1,5 +1,6 @@
 package me.hollasch.particles.firework;
 
+import me.hollasch.particles.firework.trails.TrailingSpark;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.firework.trails.CrackleFireworkSpark;
@@ -54,7 +55,7 @@ public class FireworkBody extends Particle {
         if (dead) {
             //explode
             for (int i = 0; i < children.randomInt(); i++) {
-                FireworkSpark spark = new CrackleFireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length-1)] : color));
+                FireworkSpark spark = new TrailingSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length-1)] : color));
 
                 particleHost.addParticle(spark);
             }

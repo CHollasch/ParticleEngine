@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 /**
  * @author Connor Hollasch
@@ -45,14 +46,39 @@ public class ParticleControllerFrame extends JPanel {
 
         //======================================================
 
-        setLayout(new FlowLayout());
-        add(speedSlider.get());
-        add(respawnSlider.get());
-        for (Respawnable spawn : host.getRespawnTasks()) {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        JPanel mainOptions = new JPanel();
+        mainOptions.add(new JLabel("Particle System Options"));
+        mainOptions.add(speedSlider.get());
+        mainOptions.add(respawnSlider.get());
+        mainOptions.add(clear);
+        add(mainOptions);
+
+        for (final Respawnable spawn : host.getRespawnTasks()) {
+            JPanel particlePane = new JPanel();
+            particlePane.add(new JLabel(spawn.getName() + " Options"));
             for (Source<?> option : spawn.getOptions()) {
-                add((Component) option.get());
+                particlePane.add((Component) option.get());
             }
+
+            final JToggleButton onOrOff = new JToggleButton("Toggle Off");
+            onOrOff.addActionListener(new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (onOrOff.getText().endsWith("Off")) {
+                        //off
+                        spawn.off();
+                        onOrOff.setText("Toggle On");
+                    } else {
+                        //on
+                        spawn.on();
+                        onOrOff.setText("Toggle Off");
+                    }
+                }
+            });
+            particlePane.add(onOrOff);
+            add(particlePane);
         }
-        add(clear);
     }
 }

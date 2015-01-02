@@ -1,6 +1,7 @@
 package me.hollasch.particles.firework;
 
 import me.hollasch.particles.firework.trails.FireworkSpark;
+import me.hollasch.particles.firework.trails.TrailingSpark;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
@@ -20,7 +21,7 @@ public class FireworkRespawnTask extends Respawnable {
             }
         }));
 
-        addOption(new NumberRangedOption(10, 150, 30, 60, "Speed", new UpdateEvent<Range>() {
+        addOption(new NumberRangedOption(10, 150, 60, 100, "Speed", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 speed = option;
             }
@@ -29,6 +30,7 @@ public class FireworkRespawnTask extends Respawnable {
         //SPECIFIC PARTICLE OPTIONS
 
         addOption(FireworkSpark.SPEED_OPTION);
+        addOption(TrailingSpark.TRAIL_LENGTH_OPTION);
     }
 
     private Range childRange = new Range(100, 150);
@@ -41,5 +43,10 @@ public class FireworkRespawnTask extends Respawnable {
                 speed.randomDouble(),
                 childRange,
                 ParticleSystem.colors[(int)(Math.random()*ParticleSystem.colors.length)]));
+    }
+
+    @Override
+    public String getName() {
+        return "Firework";
     }
 }
