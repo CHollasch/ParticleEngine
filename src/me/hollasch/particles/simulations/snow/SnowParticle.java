@@ -13,7 +13,8 @@ public class SnowParticle extends Particle {
     private int size;
     private double direction;
 
-    private int degs = (int) (Math.random()*360);
+    private double speed = Math.random() * 1.5 + .5;
+    private double degs = Math.random()*360;
 
     public SnowParticle(int x, int y, double direction, int size) {
         super(x, y);
@@ -22,7 +23,7 @@ public class SnowParticle extends Particle {
     }
 
     public void tick() {
-        degs++;
+        degs+=speed;
         centerY += 0.5;
         centerX += (direction + Math.sin(Math.toRadians(degs/5)) * .15);
     }

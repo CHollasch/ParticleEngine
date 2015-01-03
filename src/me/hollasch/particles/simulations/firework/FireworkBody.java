@@ -1,5 +1,6 @@
 package me.hollasch.particles.simulations.firework;
 
+import me.hollasch.particles.simulations.firework.trails.CrackleFireworkSpark;
 import me.hollasch.particles.simulations.firework.trails.TrailingSpark;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -54,9 +55,16 @@ public class FireworkBody extends Particle {
     public void paint(ParticleSystem particleHost, Graphics g) {
         if (dead) {
             //explode
+            double random = Math.random() * 100;
             for (int i = 0; i < children.randomInt(); i++) {
-                FireworkSpark spark = new TrailingSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ColorUtil.colors[(int)(Math.random()*ColorUtil.colors.length-1)] : color));
-
+                FireworkSpark spark;
+                if (random > 30) {
+                    spark = new FireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ColorUtil.colors[(int) (Math.random() * ColorUtil.colors.length - 1)] : color));
+                } else if (random > 10) {
+                    spark = new TrailingSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ColorUtil.colors[(int) (Math.random() * ColorUtil.colors.length - 1)] : color));
+                } else {
+                    spark = new CrackleFireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ColorUtil.colors[(int) (Math.random() * ColorUtil.colors.length - 1)] : color));
+                }
                 particleHost.addParticle(spark);
             }
             return;

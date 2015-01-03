@@ -2,6 +2,7 @@ package me.hollasch.particles;
 
 import me.hollasch.particles.simulations.firework.FireworkSpawnController;
 import me.hollasch.particles.particle.ParticleSystem;
+import me.hollasch.particles.simulations.screencrack.ScreenCrackSpawnController;
 import me.hollasch.particles.simulations.snow.SnowSpawnController;
 import me.hollasch.particles.simulations.stars.StarSpawnController;
 import me.hollasch.particles.util.frame.ParticleControllerFrame;
@@ -21,7 +22,10 @@ public class ParticleMain {
     public static String VERSION_ID = "1.0.0";
 
     public static JFrame MAIN_FRAME = new JFrame("Particle System v" + VERSION_ID);
+
     public static JPanel OPTIONS_PANEL;
+    private static JPanel FOOTER_PANEL;
+
     public static ParticleMain me;
 
     public static void main(String[] args) {
@@ -38,6 +42,9 @@ public class ParticleMain {
                     KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "Fullscreen");
             MAIN_FRAME.getRootPane().getActionMap().put("Fullscreen", new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
+                    if (e != null) {
+                        FOOTER_PANEL.setVisible(false);
+                    }
                     MAIN_FRAME.setBounds(0, 0, MAIN_FRAME.getToolkit().getScreenSize().width, MAIN_FRAME.getToolkit().getScreenSize().height);
                     MAIN_FRAME.dispose();
                     MAIN_FRAME.setUndecorated(true);
@@ -50,8 +57,9 @@ public class ParticleMain {
         {
             MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                     KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
-            MAIN_FRAME.getRootPane().getActionMap().put("Cancel", new AbstractAction() { //$NON-NLS-1$
+            MAIN_FRAME.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
+                    FOOTER_PANEL.setVisible(true);
                     MAIN_FRAME.dispose();
                     MAIN_FRAME.setUndecorated(false);
                     MAIN_FRAME.setSize(1000, 1000);
@@ -62,16 +70,17 @@ public class ParticleMain {
 
         final ParticleSystem host = new ParticleSystem(5);
 
-        host.addRespawnTask(new SnowSpawnController().setHost(host).setFrequency(1));
+        host.addRespawnTask(new SnowSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new FireworkSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new StarSpawnController().setHost(host).setFrequency(10));
+        host.addRespawnTask(new ScreenCrackSpawnController().setHost(host).setFrequency(10));
 
         MAIN_FRAME.setLayout(new BorderLayout());
 
         OPTIONS_PANEL = new ParticleControllerFrame(host);
         MAIN_FRAME.add(OPTIONS_PANEL, BorderLayout.NORTH);
         MAIN_FRAME.add(host, BorderLayout.CENTER);
-        MAIN_FRAME.add(new ParticleFooterFrame(host), BorderLayout.PAGE_END);
+        MAIN_FRAME.add(FOOTER_PANEL = new ParticleFooterFrame(host), BorderLayout.PAGE_END);
 
         MAIN_FRAME.setVisible(true);
     }
