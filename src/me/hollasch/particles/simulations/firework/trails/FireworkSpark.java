@@ -79,7 +79,7 @@ public class FireworkSpark extends Particle {
             return;
         }
 
-        if (lifetime < (initialLifespan / 2)) {
+        if (lifetime < (initialLifespan << 1)) {
             color = ColorUtil.modifyBrightness(color, .999f);
         }
 

@@ -2,7 +2,6 @@ package me.hollasch.particles;
 
 import me.hollasch.particles.simulations.firework.FireworkSpawnController;
 import me.hollasch.particles.particle.ParticleSystem;
-import me.hollasch.particles.simulations.screencrack.ScreenCrackSpawnController;
 import me.hollasch.particles.simulations.snow.SnowSpawnController;
 import me.hollasch.particles.simulations.stars.StarSpawnController;
 import me.hollasch.particles.util.frame.ParticleControllerFrame;
@@ -37,43 +36,38 @@ public class ParticleMain {
         MAIN_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //FOR FULLSCREEN
-        {
-            MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                    KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "Fullscreen");
-            MAIN_FRAME.getRootPane().getActionMap().put("Fullscreen", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    if (e != null) {
-                        FOOTER_PANEL.setVisible(false);
-                    }
-                    MAIN_FRAME.setBounds(0, 0, MAIN_FRAME.getToolkit().getScreenSize().width, MAIN_FRAME.getToolkit().getScreenSize().height);
-                    MAIN_FRAME.dispose();
-                    MAIN_FRAME.setUndecorated(true);
-                    MAIN_FRAME.setVisible(true);
+        MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "Fullscreen");
+        MAIN_FRAME.getRootPane().getActionMap().put("Fullscreen", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                if (e != null) {
+                    FOOTER_PANEL.setVisible(false);
                 }
-            });
-        }
+                MAIN_FRAME.setBounds(0, 0, MAIN_FRAME.getToolkit().getScreenSize().width, MAIN_FRAME.getToolkit().getScreenSize().height);
+                MAIN_FRAME.dispose();
+                MAIN_FRAME.setUndecorated(true);
+                MAIN_FRAME.setVisible(true);
+            }
+        });
 
         //FOR FULLSCREEN ESCAPE
-        {
-            MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                    KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
-            MAIN_FRAME.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    FOOTER_PANEL.setVisible(true);
-                    MAIN_FRAME.dispose();
-                    MAIN_FRAME.setUndecorated(false);
-                    MAIN_FRAME.setSize(1000, 1000);
-                    MAIN_FRAME.setVisible(true);
-                }
-            });
-        }
+        MAIN_FRAME.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+        MAIN_FRAME.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                FOOTER_PANEL.setVisible(true);
+                MAIN_FRAME.dispose();
+                MAIN_FRAME.setUndecorated(false);
+                MAIN_FRAME.setSize(1000, 1000);
+                MAIN_FRAME.setVisible(true);
+            }
+        });
 
         final ParticleSystem host = new ParticleSystem(5);
 
         host.addRespawnTask(new SnowSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new FireworkSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new StarSpawnController().setHost(host).setFrequency(10));
-        host.addRespawnTask(new ScreenCrackSpawnController().setHost(host).setFrequency(10));
 
         MAIN_FRAME.setLayout(new BorderLayout());
 

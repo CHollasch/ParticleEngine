@@ -25,7 +25,6 @@ public class StarParticle extends Particle {
     }
 
     public void tick() {
-
         double x = Math.cos(direction);
         double y = Math.sin(direction);
 

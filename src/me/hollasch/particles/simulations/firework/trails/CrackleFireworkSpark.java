@@ -23,7 +23,8 @@ public class CrackleFireworkSpark extends FireworkSpark {
 
         if (twinkle && color.getRed() < 50 && color.getGreen() < 50 && color.getBlue() < 50) {
             for (int i = 0; i < new Range(10, 15).randomInt(); i++) {
-                particleHost.addParticle(new FireworkSpark(getCenterX(), getCenterY(), parent, (Math.random() * Math.PI * 2), Color.white, (int) (Math.random() * 30 + 10)));
+                FireworkSpark sp = new FireworkSpark(getCenterX(), getCenterY(), parent, (Math.random() * Math.PI * 2), Color.white, (int) (Math.random() * 30 + 10));
+                particleHost.addParticle(sp);
             }
             twinkle = false;
             return;
