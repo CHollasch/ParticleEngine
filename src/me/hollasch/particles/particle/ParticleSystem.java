@@ -4,6 +4,7 @@ import me.hollasch.particles.debug.OptionDebugManager;
 import me.hollasch.particles.options.Option;
 import me.hollasch.particles.options.Source;
 import me.hollasch.particles.respawn.Respawnable;
+import me.hollasch.particles.util.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +74,7 @@ public class ParticleSystem extends JPanel {
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.blue);
+        g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
 
