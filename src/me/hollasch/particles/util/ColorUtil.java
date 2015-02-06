@@ -18,4 +18,9 @@ public class ColorUtil {
         float[] hsb = Color.RGBtoHSB(red, green, blue, new float[3]);
         return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
     }
+
+    public static Color fromRGB(int r, int g, int b) {
+        float[] hsb = Color.RGBtoHSB(r, g, b, new float[3]);
+        return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+    }
 }

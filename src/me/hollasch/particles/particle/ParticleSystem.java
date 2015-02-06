@@ -73,7 +73,7 @@ public class ParticleSystem extends JPanel {
     }
 
     public void paint(Graphics g) {
-        g.setColor(Color.black);
+        g.setColor(Color.blue);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
 
