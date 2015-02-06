@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,6 +33,20 @@ public class ParticleSystem extends JPanel {
         updateTickRate(updateInterval);
 
         this.millisTickRate = updateInterval;
+
+        addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent e) {
+                synchronized (ParticleSystem.this) {
+                    for (Particle p : alive) {
+                        p.onMouseClick(e);
+                    }
+                }
+            }
+            public void mousePressed(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {}
+        });
     }
 
     private HashSet<Particle> queuedForSpawn = new HashSet<Particle>();

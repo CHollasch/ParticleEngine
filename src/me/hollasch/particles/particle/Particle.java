@@ -1,6 +1,7 @@
 package me.hollasch.particles.particle;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Connor on 12/31/2014.
@@ -18,6 +19,8 @@ public abstract class Particle {
         this.centerX = x;
         this.centerY = y;
     }
+
+    public void onMouseClick(MouseEvent event) {}
 
     public int getCenterX() {
         return (int) centerX;
