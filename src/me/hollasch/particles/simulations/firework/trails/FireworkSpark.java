@@ -10,6 +10,7 @@ import me.hollasch.particles.util.ColorUtil;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Connor Hollasch
@@ -71,6 +72,13 @@ public class FireworkSpark extends Particle {
         lastY = getCenterY();
 
         this.lifetime = lifetime;
+    }
+
+    @Override
+    public void onMouseClick(MouseEvent event) {
+        color = ColorUtil.fromRGB((int) (Math.random() * 255),
+                (int) (Math.random() * 255),
+                (int) (Math.random() * 255));
     }
 
     public void tick() {
