@@ -44,7 +44,7 @@ public class ParticleFooterFrame extends JPanel {
             }
         });
 
-        add(new JLabel("By Connor H., Jason S., & Blake F."), 0, 0);
+        add(new JLabel("Connor Hollasch, Jason Stallkamp"), 0, 0);
         add(debug, 0, 1);
         add(visibility, 0, 2);
         add(fullscreen, 0, 3);

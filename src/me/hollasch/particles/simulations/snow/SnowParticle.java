@@ -16,7 +16,7 @@ public class SnowParticle extends Particle {
 
     private double fallSpeed = Math.random() * .1 + .4;
     private double speed = Math.random() * 1.5 + .5;
-    private double degs = Math.random()*360;
+    private double degs = Math.random() * 360;
 
     public SnowParticle(int x, int y, double direction, int size) {
         super(x, y);
@@ -25,9 +25,10 @@ public class SnowParticle extends Particle {
     }
 
     public void tick() {
-        degs+=speed;
-        centerY += (fallSpeed * Math.max(size/3, 1));
-        centerX += (direction + Math.sin(Math.toRadians(degs/5)) * .15);
+        degs += speed/(-size + 15);
+        degs = (degs >= 360 ? 0 : degs);
+        centerY += (fallSpeed * Math.max(size / 3, 1));
+        centerX += (direction + SimpleTrigLookup.SIN_VALUES[((int) (degs / 5))] * .15);
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {

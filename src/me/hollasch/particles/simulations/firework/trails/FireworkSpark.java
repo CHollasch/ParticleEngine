@@ -74,13 +74,6 @@ public class FireworkSpark extends Particle {
         this.lifetime = lifetime;
     }
 
-    @Override
-    public void onMouseClick(MouseEvent event) {
-        color = ColorUtil.fromRGB((int) (Math.random() * 255),
-                (int) (Math.random() * 255),
-                (int) (Math.random() * 255));
-    }
-
     public void tick() {
         if (lifetime-- < 0) {
             dead = true;

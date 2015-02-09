@@ -35,6 +35,15 @@ public class ParticleControllerFrame extends JPanel {
             }
         });
 
+        //================ MAX PARTICLE COUNT ================
+
+        NumberSliderOption maxParticles = new NumberSliderOption(1000, 15000, 6500, "Max Particle Count", new UpdateEvent<Integer>() {
+            @Override
+            public void onUpdate(Integer option) {
+                host.setMaxParticleCount(option.intValue());
+            }
+        });
+
         //================= CLEAR SCREEN ==================
 
         JButton clear = new JButton("Clear Screen");
@@ -52,6 +61,7 @@ public class ParticleControllerFrame extends JPanel {
         mainOptions.setLayout(new WrapLayout());
         mainOptions.add(new JLabel("Particle System Options"));
         mainOptions.add(speedSlider.get());
+        mainOptions.add(maxParticles.get());
         mainOptions.add(clear);
         add(mainOptions);
 

@@ -1,6 +1,7 @@
 package me.hollasch.particles.simulations.stars;
 
 import me.hollasch.particles.respawn.Respawnable;
+import me.hollasch.particles.util.Range;
 
 /**
  * @author Connor Hollasch
@@ -8,8 +9,16 @@ import me.hollasch.particles.respawn.Respawnable;
  */
 public class StarSpawnController extends Respawnable {
 
+    public StarSpawnController() {
+        respawnRateRange = new Range(1, 50);
+        addOption(StarParticle.STAR_SIZE);
+        addOption(StarParticle.STAR_SPREAD);
+        addOption(StarParticle.STAR_ACCELERATION);
+    }
+
     public void run() {
-        host.addParticle(new StarParticle(host.getWidth()/2, host.getHeight()/2));
+        for (int i = 0; i < 5; i++)
+            host.addParticle(new StarParticle(host.getWidth()/2, host.getHeight()/2));
     }
 
     public String getName() {

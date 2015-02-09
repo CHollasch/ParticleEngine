@@ -28,6 +28,7 @@ public class ParticleSystem extends JPanel {
     private ConcurrentHashMap<Respawnable, Timer> respawnTasks = new ConcurrentHashMap<Respawnable, Timer>();
 
     private java.util.Timer tickTask;
+    private int maxParticleCount;
 
     public ParticleSystem(int updateInterval) {
         updateTickRate(updateInterval);
@@ -86,6 +87,9 @@ public class ParticleSystem extends JPanel {
     }
 
     public void addParticle(Particle particle) {
+        if (alive.size() > maxParticleCount)
+            return;
+
         queuedForSpawn.add(particle);
     }
 
@@ -166,6 +170,14 @@ public class ParticleSystem extends JPanel {
 
     public void toggleDebugMode() {
         debug = !debug;
+    }
+
+    public void setMaxParticleCount(int maxParticleCount) {
+        this.maxParticleCount = maxParticleCount;
+    }
+
+    public int getMaxParticleCount() {
+        return maxParticleCount;
     }
 
     private class SpawnRateTask extends TimerTask {

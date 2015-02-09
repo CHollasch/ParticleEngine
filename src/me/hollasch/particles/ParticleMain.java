@@ -2,6 +2,7 @@ package me.hollasch.particles;
 
 import me.hollasch.particles.simulations.firework.FireworkSpawnController;
 import me.hollasch.particles.particle.ParticleSystem;
+import me.hollasch.particles.simulations.firefly.FireflySpawnController;
 import me.hollasch.particles.simulations.snow.SnowSpawnController;
 import me.hollasch.particles.simulations.stars.StarSpawnController;
 import me.hollasch.particles.util.frame.ParticleControllerFrame;
@@ -11,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * Created by Connor on 12/31/2014.
@@ -68,6 +68,7 @@ public class ParticleMain {
         host.addRespawnTask(new SnowSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new FireworkSpawnController().setHost(host).setFrequency(10));
         host.addRespawnTask(new StarSpawnController().setHost(host).setFrequency(10));
+        host.addRespawnTask(new FireflySpawnController().setHost(host).setFrequency(10));
 
         MAIN_FRAME.setLayout(new BorderLayout());
 
