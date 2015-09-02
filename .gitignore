@@ -16,5 +16,5 @@ log/
 target/
 out/
 
-
+*.log
 /dependency-reduced-pom.xml
