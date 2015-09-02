@@ -65,6 +65,7 @@ public class FireworkBody extends Particle {
                 } else {
                     spark = new CrackleFireworkSpark(0, 0, this, (Math.random() * (2 * Math.PI)), (color == null ? ColorUtil.colors[(int) (Math.random() * ColorUtil.colors.length - 1)] : color));
                 }
+                spark.setRespawnable(getRespawnable());
                 particleHost.addParticle(spark);
             }
             return;

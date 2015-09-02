@@ -6,43 +6,37 @@ package me.hollasch.particles.simulations.firefly;
  */
 public class FireflyPath {
 
-    private double sinPhi;
-    private double sinTheta;
-    private double cosPhi;
-    private double cosTheta;
+    private double sinA;
+    private double sinB;
+    private double cosA;
+    private double cosB;
 
     private double a;
     private double b;
 
-    private boolean random;
-
-    public FireflyPath(double a, double b, boolean random) {
+    public FireflyPath(double b, double a) {
         this.a = a;
         this.b = b;
 
-        this.random = random;
-
-        sinPhi = Math.sin(b);
-        sinTheta = Math.sin(a);
-        cosPhi = Math.cos(b);
-        cosTheta = Math.cos(a);
+        sinA = Math.sin(a);
+        sinB = Math.sin(b);
+        cosA = Math.cos(a);
+        cosB = Math.cos(b);
     }
 
-    public double[] rotate(double t) {
-        double angle = Math.PI * 2 * t;
+    public double[] rotate(double degrees) {
+        double angle = Math.PI * 2 * degrees;
 
         double sinAngle = Math.sin(angle);
         double cosAngle = Math.cos(angle);
 
-        if (random) {
-            sinPhi = Math.sin(b * angle);
-            cosPhi = Math.cos(b * angle);
-            sinTheta = Math.sin(a * angle);
-            cosTheta = Math.cos(a * angle);
-        }
+        sinA = Math.sin(b * angle);
+        cosA = Math.cos(b * angle);
+        sinB = Math.sin(a * angle);
+        cosB = Math.cos(a * angle);
 
-        double x = cosAngle * cosPhi - sinAngle * sinTheta * sinPhi;
-        double y = sinAngle * cosTheta;
+        double x = cosAngle * cosA - sinAngle * sinB * sinA;
+        double y = sinAngle * cosB;
 
         return new double[]{x, y};
     }

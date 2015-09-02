@@ -1,6 +1,6 @@
 package me.hollasch.particles.util;
 
-import me.hollasch.particles.ParticleMain;
+import me.hollasch.particles.ParticleFrameHandler;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +18,7 @@ public class ReflectionUtil {
 
     public static ArrayList<Class<?>> getClassesInPackage(String pkgname) {
         ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-        CodeSource codeSource = ParticleMain.me.getClass().getProtectionDomain().getCodeSource();
+        CodeSource codeSource = ParticleFrameHandler.me.getClass().getProtectionDomain().getCodeSource();
         URL resource = codeSource.getLocation();
         String relPath = pkgname.replace('.', '/');
         String resPath = resource.getPath().replace("%20", " ");

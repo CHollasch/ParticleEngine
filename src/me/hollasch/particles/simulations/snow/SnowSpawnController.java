@@ -1,7 +1,8 @@
 package me.hollasch.particles.simulations.snow;
 
+import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.respawn.Respawnable;
-import me.hollasch.particles.options.NumberRangedOption;
+import me.hollasch.particles.options.declared.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.util.Range;
 
@@ -12,7 +13,7 @@ import me.hollasch.particles.util.Range;
 public class SnowSpawnController extends Respawnable {
 
     public SnowSpawnController() {
-        respawnRateRange = new Range(1, 50);
+        super(new Range(1, 50));
 
         addOption(new NumberRangedOption(1, 15, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
@@ -28,14 +29,17 @@ public class SnowSpawnController extends Respawnable {
                 direction = new Range(min/10d, max/10d);
             }
         }));
+
+        setAmplifiedSpawnRate(5);
     }
 
     private Range size = new Range(1, 3);
     private Range direction = new Range(-.5, .5);
 
-    public void run() {
-        for (int i = 0; i < 5; i++)
-            host.addParticle(new SnowParticle((int) (Math.random() * host.getWidth()), 0, direction.randomDouble(), size.randomInt()));
+
+    @Override
+    public Particle nextParticle() {
+        return new SnowParticle((int) (Math.random() * host.getWidth()), 0, direction.randomDouble(), size.randomInt());
     }
 
     @Override

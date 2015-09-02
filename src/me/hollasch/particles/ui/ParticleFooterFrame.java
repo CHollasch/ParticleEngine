@@ -1,6 +1,6 @@
-package me.hollasch.particles.util.frame;
+package me.hollasch.particles.ui;
 
-import me.hollasch.particles.ParticleMain;
+import me.hollasch.particles.ParticleFrameHandler;
 import me.hollasch.particles.particle.ParticleSystem;
 
 import javax.swing.*;
@@ -27,19 +27,19 @@ public class ParticleFooterFrame extends JPanel {
         JButton visibility = new JButton("Toggle Options Visibility");
         visibility.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ParticleMain.OPTIONS_PANEL.setVisible(!ParticleMain.OPTIONS_PANEL.isVisible());
+                ParticleFrameHandler.OPTIONS_PANEL.setVisible(!ParticleFrameHandler.OPTIONS_PANEL.isVisible());
             }
         });
 
         JButton fullscreen = new JButton("Toggle Fullscreen");
         fullscreen.addActionListener(new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                if (ParticleMain.MAIN_FRAME.isUndecorated()) {
+                if (ParticleFrameHandler.MAIN_FRAME.isUndecorated()) {
                     //fullscreen
-                    ParticleMain.MAIN_FRAME.getRootPane().getActionMap().get("Cancel").actionPerformed(null);
+                    ParticleFrameHandler.MAIN_FRAME.getRootPane().getActionMap().get("Cancel").actionPerformed(null);
                 } else {
                     //not fullscreen
-                    ParticleMain.MAIN_FRAME.getRootPane().getActionMap().get("Fullscreen").actionPerformed(null);
+                    ParticleFrameHandler.MAIN_FRAME.getRootPane().getActionMap().get("Fullscreen").actionPerformed(null);
                 }
             }
         });

@@ -1,6 +1,6 @@
 package me.hollasch.particles.simulations.firework.trails;
 
-import me.hollasch.particles.options.NumberRangedOption;
+import me.hollasch.particles.options.declared.NumberRangedOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;

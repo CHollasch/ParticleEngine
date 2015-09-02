@@ -1,9 +1,8 @@
-package me.hollasch.particles.util.frame;
+package me.hollasch.particles.ui;
 
-import me.hollasch.particles.options.NumberRangedOption;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.respawn.Respawnable;
-import me.hollasch.particles.options.NumberSliderOption;
+import me.hollasch.particles.options.declared.NumberSliderOption;
 import me.hollasch.particles.options.Source;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.util.WrapLayout;
@@ -15,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * @author Connor Hollasch
@@ -75,13 +73,13 @@ public class ParticleControllerFrame extends JPanel {
                         //hide
                         toggle.setText("Enable " + spawn.getName());
                         optionPanes.get(spawn.getName()).setVisible(false);
-                        spawn.off();
+                        spawn.disable();
                     } else {
                         //show
                         toggle.setText("Disable " + spawn.getName());
                         optionPanes.get(spawn.getName()).setVisible(true);
                         optionPanes.get(spawn.getName()).updateUI();
-                        spawn.on();
+                        spawn.enable();
                     }
                 }
             });
@@ -114,7 +112,7 @@ public class ParticleControllerFrame extends JPanel {
 
             optionPanes.put(spawn.getName(), particlePane);
             particlePane.setVisible(false);
-            spawn.off();
+            spawn.disable();
             add(particlePane);
 
             //CREATE TOGGLE BUTTON

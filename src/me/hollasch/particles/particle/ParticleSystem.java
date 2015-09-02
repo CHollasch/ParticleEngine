@@ -1,17 +1,15 @@
 package me.hollasch.particles.particle;
 
+import me.hollasch.particles.api.ParticleAPI;
 import me.hollasch.particles.debug.OptionDebugManager;
 import me.hollasch.particles.options.Option;
-import me.hollasch.particles.options.Source;
 import me.hollasch.particles.respawn.Respawnable;
-import me.hollasch.particles.util.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.*;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +22,7 @@ public class ParticleSystem extends JPanel {
     private long ticks = 0;
     private int millisTickRate = 50;
 
+    private boolean frozen;
     private HashSet<Particle> alive = new HashSet<Particle>();
     private ConcurrentHashMap<Respawnable, Timer> respawnTasks = new ConcurrentHashMap<Respawnable, Timer>();
 
@@ -36,26 +35,33 @@ public class ParticleSystem extends JPanel {
         this.millisTickRate = updateInterval;
 
         addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {}
+
+            public void mousePressed(MouseEvent e) {
                 synchronized (ParticleSystem.this) {
                     for (Particle p : alive) {
                         p.onMouseClick(e);
                     }
                 }
             }
-            public void mousePressed(MouseEvent e) {}
+
             public void mouseReleased(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
+        });
+
+        addMouseMotionListener(new MouseMotionListener() {
+            public void mouseDragged(MouseEvent e) {}
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                ParticleAPI.updateMouseLocation(new Point(e.getX(), e.getY()));
+            }
         });
     }
 
     private HashSet<Particle> queuedForSpawn = new HashSet<Particle>();
     private HashSet<Particle> queuedForDespawn = new HashSet<Particle>();
-
-    public int getTickRate() {
-        return millisTickRate;
-    }
 
     public void updateTickRate(int now) {
         if (tickTask != null) {
@@ -132,8 +138,10 @@ public class ParticleSystem extends JPanel {
                 p.paint(this, g);
                 g.setColor(old);
 
-                if (p.dead || p.getCenterX() > getWidth() || p.getCenterX() < 0 || p.getCenterY() > getHeight() || p.getCenterY() < 0)
+                if (p.dead || p.getCenterX() > getWidth() || p.getCenterX() < 0 || p.getCenterY() > getHeight() || p.getCenterY() < 0) {
                     queuedForDespawn.add(p);
+                    p.getRespawnable().onParticleDied(p);
+                }
             }
 
             alive.removeAll(queuedForDespawn);
@@ -142,6 +150,18 @@ public class ParticleSystem extends JPanel {
             alive.addAll(queuedForSpawn);
             queuedForSpawn.clear();
         }
+    }
+
+    public Map<String, Object> getDebuggingInformation() {
+        Map<String, Object> debugInfo = new HashMap<String, Object>();
+
+        debugInfo.put("particles", alive.size());
+        debugInfo.put("tick", ticks);
+        debugInfo.put("queued.spawn", queuedForSpawn.size());
+        debugInfo.put("queued.despawn", queuedForDespawn.size());
+        debugInfo.put("options", OptionDebugManager.getAllOptions());
+
+        return debugInfo;
     }
 
     public void addRespawnTask(Respawnable task, int frequency) {
@@ -153,6 +173,10 @@ public class ParticleSystem extends JPanel {
 
     public void clear() {
         queuedForDespawn.addAll(alive);
+
+        for (Particle particle : alive) {
+            particle.getRespawnable().onParticleDied(particle);
+        }
     }
 
     public Set<Respawnable> getRespawnTasks() {
@@ -164,6 +188,14 @@ public class ParticleSystem extends JPanel {
         int max = (int) respawnable.getRespawnRateRange().getMaximum();
 
         addRespawnTask(respawnable, ((max - min) / 2));
+    }
+
+    public void freeze() {
+        this.frozen = true;
+    }
+
+    public void unfreeze() {
+        this.frozen = false;
     }
 
     private boolean debug;
@@ -193,7 +225,7 @@ public class ParticleSystem extends JPanel {
                     return;
 
                 target.tick++;
-                if (target.spawn())
+                if (target.canSpawn())
                     target.run();
 
                 ticks++;
@@ -204,6 +236,10 @@ public class ParticleSystem extends JPanel {
     private class TickRateTask extends TimerTask {
         public void run() {
             synchronized (ParticleSystem.this) {
+                if (frozen) {
+                    return;
+                }
+
                 if (millisTickRate > 30)
                     return;
 

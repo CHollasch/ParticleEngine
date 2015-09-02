@@ -1,7 +1,7 @@
 package me.hollasch.particles.simulations.firework.trails;
 
-import me.hollasch.particles.options.NumberRangedOption;
-import me.hollasch.particles.options.NumberSliderOption;
+import me.hollasch.particles.options.declared.NumberRangedOption;
+import me.hollasch.particles.options.declared.NumberSliderOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -10,7 +10,6 @@ import me.hollasch.particles.util.ColorUtil;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * @author Connor Hollasch
@@ -88,7 +87,7 @@ public class FireworkSpark extends Particle {
         lastY = getCenterY();
 
         centerX -= speedX * .0166;
-        centerY -= speedY * .0166 - 4.905 * .00277;
+        centerY -= speedY * .0166 - 0.01358685;
         speedX = speedX * .993;
         speedY = speedY * .993;
         speedY  = speedY - 4.905 * .0166 ;

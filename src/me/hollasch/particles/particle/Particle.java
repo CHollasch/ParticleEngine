@@ -1,5 +1,7 @@
 package me.hollasch.particles.particle;
 
+import me.hollasch.particles.respawn.Respawnable;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -7,6 +9,9 @@ import java.awt.event.MouseEvent;
  * Created by Connor on 12/31/2014.
  */
 public abstract class Particle {
+
+    private Respawnable respawnable;
+    private boolean firstBorn = false;
 
     protected double centerX;
     protected double centerY;
@@ -33,4 +38,24 @@ public abstract class Particle {
     public abstract void tick();
 
     public abstract void paint(ParticleSystem particleHost, Graphics g);
+
+    public void setRespawnable(Respawnable respawnable) {
+        this.respawnable = respawnable;
+    }
+
+    public Respawnable getRespawnable() {
+        return respawnable;
+    }
+
+    public void toggleFirstborn() {
+        firstBorn = !firstBorn;
+    }
+
+    public boolean isFirstBorn() {
+        return firstBorn;
+    }
+
+    public void kill() {
+        dead = true;
+    }
 }

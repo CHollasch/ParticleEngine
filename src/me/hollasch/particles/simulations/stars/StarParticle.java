@@ -1,8 +1,9 @@
 package me.hollasch.particles.simulations.stars;
 
-import me.hollasch.particles.options.NumberRangedOption;
-import me.hollasch.particles.options.NumberSliderOption;
+import me.hollasch.particles.options.declared.NumberRangedOption;
+import me.hollasch.particles.options.declared.NumberSliderOption;
 import me.hollasch.particles.options.UpdateEvent;
+import me.hollasch.particles.options.declared.ToggleOption;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.util.ColorUtil;
@@ -40,6 +41,7 @@ public class StarParticle extends Particle {
             ACCELERATION = (option.doubleValue() / 10000.0) + 1;
         }
     });
+
 
     private Color star_color;
 

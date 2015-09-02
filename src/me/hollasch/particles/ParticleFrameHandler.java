@@ -1,22 +1,18 @@
 package me.hollasch.particles;
 
-import me.hollasch.particles.simulations.firework.FireworkSpawnController;
+import me.hollasch.particles.api.ParticleRespawnableQueue;
 import me.hollasch.particles.particle.ParticleSystem;
-import me.hollasch.particles.simulations.firefly.FireflySpawnController;
-import me.hollasch.particles.simulations.snow.SnowSpawnController;
-import me.hollasch.particles.simulations.stars.StarSpawnController;
-import me.hollasch.particles.util.frame.ParticleControllerFrame;
-import me.hollasch.particles.util.frame.ParticleFooterFrame;
+import me.hollasch.particles.ui.ParticleControllerFrame;
+import me.hollasch.particles.ui.ParticleFooterFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 /**
  * Created by Connor on 12/31/2014.
  */
-public class ParticleMain {
+public class ParticleFrameHandler {
 
     public static String VERSION_ID = "1.0.0";
 
@@ -25,10 +21,12 @@ public class ParticleMain {
     public static JPanel OPTIONS_PANEL;
     private static JPanel FOOTER_PANEL;
 
-    public static ParticleMain me;
+    private static ParticleSystem PARTICLE_SYSTEM;
 
-    public static void main(String[] args) {
-        me = new ParticleMain();
+    public static ParticleFrameHandler me;
+
+    public static void execute(String[] args) {
+        me = new ParticleFrameHandler();
 
         MAIN_FRAME.setSize(new Dimension(1000, 1000));
         MAIN_FRAME.setMinimumSize(new Dimension(480, 640));
@@ -63,20 +61,38 @@ public class ParticleMain {
             }
         });
 
-        final ParticleSystem host = new ParticleSystem(5);
+        PARTICLE_SYSTEM = new ParticleSystem(5);
 
-        host.addRespawnTask(new SnowSpawnController().setHost(host).setFrequency(10));
-        host.addRespawnTask(new FireworkSpawnController().setHost(host).setFrequency(10));
-        host.addRespawnTask(new StarSpawnController().setHost(host).setFrequency(10));
-        host.addRespawnTask(new FireflySpawnController().setHost(host).setFrequency(10));
+        ParticleRespawnableQueue.link(PARTICLE_SYSTEM);
+        ParticleRespawnableQueue.subscribe();
+
+        MAIN_FRAME.addComponentListener(new ComponentListener() {
+            public void componentResized(ComponentEvent e) {
+                PARTICLE_SYSTEM.clear();
+            }
+
+            public void componentShown(ComponentEvent e) {
+                PARTICLE_SYSTEM.unfreeze();
+            }
+
+            public void componentHidden(ComponentEvent e) {
+                PARTICLE_SYSTEM.freeze();
+            }
+
+            public void componentMoved(ComponentEvent e) {}
+        });
 
         MAIN_FRAME.setLayout(new BorderLayout());
 
-        OPTIONS_PANEL = new ParticleControllerFrame(host);
+        OPTIONS_PANEL = new ParticleControllerFrame(getActiveParticleSystem());
         MAIN_FRAME.add(OPTIONS_PANEL, BorderLayout.NORTH);
-        MAIN_FRAME.add(host, BorderLayout.CENTER);
-        MAIN_FRAME.add(FOOTER_PANEL = new ParticleFooterFrame(host), BorderLayout.PAGE_END);
+        MAIN_FRAME.add(getActiveParticleSystem(), BorderLayout.CENTER);
+        MAIN_FRAME.add(FOOTER_PANEL = new ParticleFooterFrame(getActiveParticleSystem()), BorderLayout.PAGE_END);
 
         MAIN_FRAME.setVisible(true);
+    }
+
+    public static ParticleSystem getActiveParticleSystem() {
+        return PARTICLE_SYSTEM;
     }
 }

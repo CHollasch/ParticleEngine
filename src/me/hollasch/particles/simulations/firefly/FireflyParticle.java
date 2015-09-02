@@ -1,6 +1,6 @@
 package me.hollasch.particles.simulations.firefly;
 
-import me.hollasch.particles.options.NumberSliderOption;
+import me.hollasch.particles.options.declared.NumberSliderOption;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
@@ -36,7 +36,7 @@ public class FireflyParticle extends Particle {
     public FireflyParticle(int x, int y) {
         super(x, y);
 
-        path = new FireflyPath(Math.random() * 4 + Math.random() * 6, Math.random() * 4 + Math.random() * 6, true);
+        path = new FireflyPath(Math.random() * 10, Math.random() * 10);
     }
 
     private boolean down = false;
@@ -46,30 +46,30 @@ public class FireflyParticle extends Particle {
     private Color firefly_color = ColorUtil.fromRGB(150, 150, 0);
 
     public void tick() {
-        angle+=JIGGLE;
+        angle += JIGGLE;
         double[] move = path.rotate(angle);
 
         centerX += move[0];
         centerY += move[1];
 
         if (down) {
-            modifier-=0.01;
+            modifier -= 0.01;
             if (modifier <= -2)
                 down = false;
         } else {
-            modifier+=0.01;
+            modifier += 0.01;
             if (modifier >= 2)
                 down = true;
         }
 
-        color+=modifier;
+        color += modifier;
 
         firefly_color = modifyYellow((int)color);
     }
 
     public void paint(ParticleSystem particleHost, Graphics g) {
         g.setColor(firefly_color);
-        g.fillOval(getCenterX(), getCenterY(), SIZE + (int)(5 * (1+modifier)), SIZE + (int)(5 * (1+modifier)));
+        g.fillOval(getCenterX(), getCenterY(), SIZE + (int)(5 * (1 + modifier)), SIZE + (int)(5 * (1 + modifier)));
     }
 
     //============
