@@ -3,13 +3,9 @@ package me.hollasch.particles.simulations.stars;
 import me.hollasch.particles.api.ParticleAPI;
 import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.options.declared.DropdownOption;
-import me.hollasch.particles.options.declared.ToggleOption;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.respawn.Respawnable;
-import me.hollasch.particles.simulations.firefly.FireflyPath;
 import me.hollasch.particles.util.Range;
-
-import java.awt.*;
 
 /**
  * @author Connor Hollasch
@@ -22,17 +18,23 @@ public class StarSpawnController extends Respawnable {
     public StarSpawnController() {
         super(new Range(1, 50));
 
-        addOption(StarParticle.STAR_SIZE);
-        addOption(StarParticle.STAR_SPREAD);
-        addOption(StarParticle.STAR_ACCELERATION);
+        addGUIOption(StarParticle.STAR_SIZE);
+        addGUIOption(StarParticle.STAR_SPREAD);
+        addGUIOption(StarParticle.STAR_ACCELERATION);
 
-        addOption(new DropdownOption<>(new String[]{"At Center", "Follow Mouse", "Circle"}, "At Center", "Spawn Location", new UpdateEvent<String>() {
+        addGUIOption(new DropdownOption<>(new String[]{"At Center", "Follow Mouse", "Circle"}, "At Center", "Spawn Location", new UpdateEvent<String>() {
             @Override
             public void onUpdate(String option) {
                 switch (option) {
-                    case "At Center": pathAction = 0; return;
-                    case "Follow Mouse": pathAction = 1; return;
-                    default: pathAction = 2; return;
+                    case "At Center":
+                        pathAction = 0;
+                        return;
+                    case "Follow Mouse":
+                        pathAction = 1;
+                        return;
+                    default:
+                        pathAction = 2;
+                        return;
                 }
             }
         }));

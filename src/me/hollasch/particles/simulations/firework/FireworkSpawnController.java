@@ -18,13 +18,13 @@ public class FireworkSpawnController extends Respawnable {
     public FireworkSpawnController() {
         super(new Range(10, 200));
 
-        addOption(new NumberRangedOption(10, 500, 100, 150, "Spark Count", new UpdateEvent<Range>() {
+        addGUIOption(new NumberRangedOption(10, 500, 100, 150, "Spark Count", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 childRange = option;
             }
         }));
 
-        addOption(new NumberRangedOption(10, 150, 60, 100, "Speed", new UpdateEvent<Range>() {
+        addGUIOption(new NumberRangedOption(10, 150, 60, 100, "Speed", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 speed = option;
             }
@@ -32,9 +32,9 @@ public class FireworkSpawnController extends Respawnable {
 
         //SPECIFIC PARTICLE OPTIONS
 
-        addOption(FireworkSpark.SPEED_OPTION);
-        addOption(TrailingSpark.TRAIL_LENGTH_OPTION);
-        addOption(TrailingSpark.BALL_SIZE_OPTION);
+        addGUIOption(FireworkSpark.SPEED_OPTION);
+        addGUIOption(TrailingSpark.TRAIL_LENGTH_OPTION);
+        addGUIOption(TrailingSpark.BALL_SIZE_OPTION);
     }
 
     private Range childRange = new Range(100, 150);

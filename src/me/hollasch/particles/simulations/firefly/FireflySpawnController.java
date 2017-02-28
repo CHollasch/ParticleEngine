@@ -13,8 +13,8 @@ public class FireflySpawnController extends Respawnable {
     public FireflySpawnController() {
         super(new Range(1, 30));
 
-        addOption(FireflyParticle.FIREFLY_SIZE);
-        addOption(FireflyParticle.FIREFLY_JIGGLE);
+        addGUIOption(FireflyParticle.FIREFLY_SIZE);
+        addGUIOption(FireflyParticle.FIREFLY_JIGGLE);
     }
 
     @Override

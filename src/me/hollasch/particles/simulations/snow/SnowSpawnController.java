@@ -15,18 +15,18 @@ public class SnowSpawnController extends Respawnable {
     public SnowSpawnController() {
         super(new Range(1, 50));
 
-        addOption(new NumberRangedOption(1, 15, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
+        addGUIOption(new NumberRangedOption(1, 15, 1, 3, "Snowflake Size", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 size = option;
             }
         }));
 
-        addOption(new NumberRangedOption(-10, 10, -5, 5, "Snowfall Direction", new UpdateEvent<Range>() {
+        addGUIOption(new NumberRangedOption(-10, 10, -5, 5, "Snowfall Direction", new UpdateEvent<Range>() {
             public void onUpdate(Range option) {
                 double min = option.getMinimum();
                 double max = option.getMaximum();
 
-                direction = new Range(min/10d, max/10d);
+                direction = new Range(min / 10d, max / 10d);
             }
         }));
 

@@ -64,7 +64,7 @@ public class ParticleFrameHandler {
         PARTICLE_SYSTEM = new ParticleSystem(5);
 
         ParticleRespawnableQueue.link(PARTICLE_SYSTEM);
-        ParticleRespawnableQueue.subscribe();
+        ParticleRespawnableQueue.finalizeControllers();
 
         MAIN_FRAME.addComponentListener(new ComponentListener() {
             public void componentResized(ComponentEvent e) {

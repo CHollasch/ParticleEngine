@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.*;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by Connor on 12/31/2014.
@@ -23,7 +24,7 @@ public class ParticleSystem extends JPanel {
     private int millisTickRate = 50;
 
     private boolean frozen;
-    private HashSet<Particle> alive = new HashSet<Particle>();
+    private Set<Particle> alive = new HashSet<>();
     private ConcurrentHashMap<Respawnable, Timer> respawnTasks = new ConcurrentHashMap<Respawnable, Timer>();
 
     private java.util.Timer tickTask;
@@ -35,7 +36,8 @@ public class ParticleSystem extends JPanel {
         this.millisTickRate = updateInterval;
 
         addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+            }
 
             public void mousePressed(MouseEvent e) {
                 synchronized (ParticleSystem.this) {
@@ -45,13 +47,19 @@ public class ParticleSystem extends JPanel {
                 }
             }
 
-            public void mouseReleased(MouseEvent e) {}
-            public void mouseEntered(MouseEvent e) {}
-            public void mouseExited(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            public void mouseExited(MouseEvent e) {
+            }
         });
 
         addMouseMotionListener(new MouseMotionListener() {
-            public void mouseDragged(MouseEvent e) {}
+            public void mouseDragged(MouseEvent e) {
+            }
 
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -99,7 +107,7 @@ public class ParticleSystem extends JPanel {
         queuedForSpawn.add(particle);
     }
 
-    public void paint(Graphics g) {
+    public synchronized void paint(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.white);
@@ -118,20 +126,20 @@ public class ParticleSystem extends JPanel {
             g.setColor(Color.white);
 
             int textPos = 0;
-            g.drawString("-- Debug Mode Enabled --", 0, textPos+=12);
-            g.drawString("  Particle Count (" + alive.size() + ")", 0, textPos+=20);
-            g.drawString("  Engine Tick Number (" + ticks + ")", 0, textPos+=12);
-            g.drawString("  Queued Particles", 0, textPos+=12);
-            g.drawString("    Queued For Despawn (" + queuedForDespawn.size() + ")", 0, textPos+=12);
-            g.drawString("    Queued For Spawning (" + queuedForSpawn.size() + ")", 0, textPos+=12);
-            g.drawString("  Options", 0, textPos+=12);
+            g.drawString("-- Debug Mode Enabled --", 0, textPos += 12);
+            g.drawString("  Particle Count (" + alive.size() + ")", 0, textPos += 20);
+            g.drawString("  Engine Tick Number (" + ticks + ")", 0, textPos += 12);
+            g.drawString("  Queued Particles", 0, textPos += 12);
+            g.drawString("    Queued For Despawn (" + queuedForDespawn.size() + ")", 0, textPos += 12);
+            g.drawString("    Queued For Spawning (" + queuedForSpawn.size() + ")", 0, textPos += 12);
+            g.drawString("  Options", 0, textPos += 12);
             for (Option opt : OptionDebugManager.getAllOptions()) {
                 g.drawString("    " + opt.getDescription() + " = " + opt.getValue().toString(), 0, textPos += 12);
             }
-            g.drawString("------------------------------------", 0, textPos+20);
+            g.drawString("------------------------------------", 0, textPos + 20);
         }
 
-        synchronized (this) {
+        synchronized (alive) {
             for (Particle p : alive) {
                 Color old = g.getColor();
                 g.setColor(Color.white);
@@ -140,7 +148,10 @@ public class ParticleSystem extends JPanel {
 
                 if (p.dead || p.getCenterX() > getWidth() || p.getCenterX() < 0 || p.getCenterY() > getHeight() || p.getCenterY() < 0) {
                     queuedForDespawn.add(p);
-                    p.getRespawnable().onParticleDied(p);
+
+                    if (p.getRespawnable() != null) {
+                        p.getRespawnable().onParticleDied(p);
+                    }
                 }
             }
 
@@ -153,7 +164,7 @@ public class ParticleSystem extends JPanel {
     }
 
     public Map<String, Object> getDebuggingInformation() {
-        Map<String, Object> debugInfo = new HashMap<String, Object>();
+        Map<String, Object> debugInfo = new HashMap<>();
 
         debugInfo.put("particles", alive.size());
         debugInfo.put("tick", ticks);
@@ -177,6 +188,10 @@ public class ParticleSystem extends JPanel {
         for (Particle particle : alive) {
             particle.getRespawnable().onParticleDied(particle);
         }
+    }
+
+    public synchronized Set<Particle> getAlive() {
+        return alive;
     }
 
     public Set<Respawnable> getRespawnTasks() {
@@ -235,7 +250,7 @@ public class ParticleSystem extends JPanel {
 
     private class TickRateTask extends TimerTask {
         public void run() {
-            synchronized (ParticleSystem.this) {
+            synchronized (alive) {
                 if (frozen) {
                     return;
                 }

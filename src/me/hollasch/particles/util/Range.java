@@ -34,4 +34,9 @@ public class Range {
     public double getMaximum() {
         return max;
     }
+
+    @Override
+    public String toString() {
+        return min + " -> " + max;
+    }
 }

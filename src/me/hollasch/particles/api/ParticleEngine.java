@@ -11,8 +11,12 @@ public class ParticleEngine {
         this.engine_arguments = args;
     }
 
-    public void addRespawnable(Respawnable respawnable) {
-        ParticleRespawnableQueue.queueForCreation(respawnable);
+    public Respawnable addSpawnController(Respawnable respawnable) {
+        return ParticleRespawnableQueue.queueForCreation(respawnable);
+    }
+
+    public void removeSpawnController(Respawnable respawnable) {
+        ParticleRespawnableQueue.queuedForDestruction(respawnable);
     }
 
     public void startEngine() {

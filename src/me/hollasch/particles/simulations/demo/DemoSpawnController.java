@@ -8,8 +8,6 @@ import me.hollasch.particles.options.UpdateEvent;
 import me.hollasch.particles.particle.Particle;
 import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.respawn.Respawnable;
-import me.hollasch.particles.simulations.snow.SnowParticle;
-import me.hollasch.particles.simulations.stars.StarParticle;
 import me.hollasch.particles.util.Range;
 
 import java.awt.*;
@@ -27,23 +25,23 @@ public class DemoSpawnController extends Respawnable {
 
         setOneParticleAtATime(true);
 
-        addOption(new NumberRangedOption(10, 1000, 10, 50, "Bubble Size", new UpdateEvent<Range>() {
+        addGUIOption(new NumberRangedOption(10, 1000, 10, 50, "Bubble Size", new UpdateEvent<Range>() {
             @Override
             public void onUpdate(Range option) {
                 size = option;
             }
         }));
-        addOption(new ToggleOption(false, "Solid Circle", new UpdateEvent<Boolean>() {
+        addGUIOption(new ToggleOption(false, "Solid Circle", new UpdateEvent<Boolean>() {
             public void onUpdate(Boolean option) {
                 solid = option;
             }
         }));
-        addOption(new ToggleOption(false, "Changing Sizes", new UpdateEvent<Boolean>() {
+        addGUIOption(new ToggleOption(false, "Changing Sizes", new UpdateEvent<Boolean>() {
             public void onUpdate(Boolean option) {
                 changingSizes = option;
             }
         }));
-        addOption(new NumberSliderOption(1, 10, 5, "Change  Speed", new UpdateEvent<Integer>() {
+        addGUIOption(new NumberSliderOption(1, 10, 5, "Change  Speed", new UpdateEvent<Integer>() {
             public void onUpdate(Integer option) {
                 changeSpeed = option;
             }

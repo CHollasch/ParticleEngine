@@ -4,6 +4,7 @@ import me.hollasch.particles.particle.ParticleSystem;
 import me.hollasch.particles.respawn.Respawnable;
 import me.hollasch.particles.simulations.firefly.FireflySpawnController;
 import me.hollasch.particles.simulations.firework.FireworkSpawnController;
+import me.hollasch.particles.simulations.neural.NeuralSpawnController;
 import me.hollasch.particles.simulations.snow.SnowSpawnController;
 import me.hollasch.particles.simulations.stars.StarSpawnController;
 
@@ -19,12 +20,14 @@ public class ParticleRespawnableQueue {
     public static final Respawnable FIREWORK_SPAWN_CONTROLLER = new FireworkSpawnController().setFrequency(10);
     public static final Respawnable STAR_SPAWN_CONTROLLER = new StarSpawnController().setFrequency(10);
     public static final Respawnable FIREFLY_SPAWN_CONTROLLER = new FireflySpawnController().setFrequency(10);
+    public static final Respawnable NEURAL_SPAWN_CONTROLLER = new NeuralSpawnController().setFrequency(10);
 
     static {
         queueForCreation(SNOW_SPAWN_CONTROLLER);
         queueForCreation(FIREWORK_SPAWN_CONTROLLER);
         queueForCreation(STAR_SPAWN_CONTROLLER);
         queueForCreation(FIREFLY_SPAWN_CONTROLLER);
+        queueForCreation(NEURAL_SPAWN_CONTROLLER);
     }
 
     public static void link(ParticleSystem host) {
@@ -41,7 +44,7 @@ public class ParticleRespawnableQueue {
         return respawnable;
     }
 
-    public static void subscribe() {
+    public static void finalizeControllers() {
         for (Respawnable respawnable : respawnables) {
             respawnable.setHost(host);
             host.addRespawnTask(respawnable);

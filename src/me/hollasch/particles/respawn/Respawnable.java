@@ -86,7 +86,7 @@ public abstract class Respawnable {
         }
     }
 
-    protected void addOption(Source<?> option) {
+    protected void addGUIOption(Source<?> option) {
         this.options.add(option);
     }
 
